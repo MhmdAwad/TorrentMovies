@@ -1,0 +1,3 @@
+include ':YouTubeAndroidPlayerApi'
+include ':app'
+rootProject.name = "TorrentMovies"
