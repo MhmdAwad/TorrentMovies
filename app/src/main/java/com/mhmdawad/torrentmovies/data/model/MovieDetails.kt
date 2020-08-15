@@ -80,13 +80,13 @@ data class Movie(
 	val title: String? = null,
 
 	@field:SerializedName("cast")
-	val cast: List<CastItem?>? = null,
+	val cast: List<CastItem> = emptyList(),
 
 	@field:SerializedName("mpa_rating")
 	val mpaRating: String? = null,
 
 	@field:SerializedName("genres")
-	val genres: List<String?>? = null,
+	val genres: List<String>? = null,
 
 	@field:SerializedName("large_screenshot_image1")
 	val largeScreenshotImage1: String? = null,

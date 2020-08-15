@@ -1,42 +1,118 @@
 package com.mhmdawad.torrentmovies.ui.fragments.stream
 
+import android.app.AlertDialog
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.github.se_bastiaan.torrentstream.StreamStatus
 import com.github.se_bastiaan.torrentstream.Torrent
 import com.github.se_bastiaan.torrentstream.TorrentStream
 import com.github.se_bastiaan.torrentstream.listeners.TorrentListener
-import com.google.android.exoplayer2.ExoPlaybackException
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.source.ExtractorMediaSource
-import com.google.android.exoplayer2.ui.SubtitleView
+import com.google.android.exoplayer2.*
+import com.google.android.exoplayer2.source.*
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Log
+import com.masterwok.opensubtitlesandroid.models.OpenSubtitleItem
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.utils.*
+import kotlinx.android.synthetic.main.exo_player_control_view.*
 import kotlinx.android.synthetic.main.fragment_stream.*
+import kotlinx.android.synthetic.main.movie_quality_dialog.view.*
+import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.core.KoinComponent
 import org.koin.core.get
+import java.io.File
 
 
-class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, TorrentListener {
+class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, TorrentListener, SubtitleListener {
 
     private val args: StreamFragmentArgs by navArgs()
     private lateinit var simplePlayer: SimpleExoPlayer
     private lateinit var torrentStream: TorrentStream
+    private lateinit var mergeMediaSource: MergingMediaSource
+    private lateinit var mediaSource: ExtractorMediaSource
+    private lateinit var alertDialog: AlertDialog
+    private lateinit var viewModel: StreamViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = getViewModel()
         changeStatusBar()
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         initTorrentStream()
+        observeObservers()
+        viewsListener()
     }
+
+    private fun viewsListener() {
+
+        moviePlayer.setControllerVisibilityListener {
+            with(activity?.window?.decorView) {
+                if (it == 0)
+                    this?.systemUiVisibility = showSystemUI()
+                else
+                    this?.systemUiVisibility = hideSystemUI()
+            }
+        }
+
+        movieSubtitle.setOnClickListener {
+            viewModel.searchMovieSubtitle(args.movieName)
+        }
+    }
+
+    private fun observeObservers() {
+        viewModel.getSubtitlesData().observe(viewLifecycleOwner, Observer {
+            when(it){
+                is Resource.Loading-> {
+                    progressContainer.show()
+                }
+                is Resource.Loaded -> {
+                    showMovieSubtitlesDialog(it.data!!, requireView())
+                    progressContainer.gone()
+                }
+                is Resource.Error -> {
+                    progressContainer.gone()
+                    showToast(it.msg!!)
+                }
+            }
+            simplePlayer.stopPlayer()
+        })
+
+        viewModel.getSubtitleStatus().observe(viewLifecycleOwner, Observer {
+            when(it){
+                is Resource.Loaded-> {
+                    alertDialog.dismiss()
+                    addSubtitleForPlayer(it.data)
+                }
+                is Resource.Error -> println("Errrrrrrrrrrrrrrrrrrr ${it.msg}")
+            }
+        })
+    }
+
+
+    private fun showMovieSubtitlesDialog(listOfSubtitles: Array<OpenSubtitleItem>, view: View) {
+        val viewGroup: ViewGroup? = view.findViewById(android.R.id.content)
+        val dialogView: View =
+            LayoutInflater.from(view.context).inflate(
+                R.layout.movie_quality_dialog
+                , viewGroup, false
+            )
+        val builder = AlertDialog.Builder(view.context)
+        builder.setTitle(resources.getString(R.string.movieQuality))
+        builder.setView(dialogView)
+        alertDialog = builder.create()
+        val movieAdapter = MovieSubtitlesAdapter(listOfSubtitles, this)
+        dialogView.movieQualityRV.adapter = movieAdapter
+        alertDialog.show()
+    }
+
 
     private fun initTorrentStream() {
         torrentStream = get()
@@ -48,13 +124,14 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
         simplePlayer = get()
         moviePlayer.player = simplePlayer
         val factory: DefaultDataSourceFactory = get()
-        val mediaSource = ExtractorMediaSource.Factory(factory).createMediaSource(Uri.parse(path))
+        mediaSource = ExtractorMediaSource.Factory(factory).createMediaSource(Uri.parse(path))
+        mergeMediaSource = MergingMediaSource(mediaSource)
         simplePlayer.apply {
-            startPlayer(mediaSource)
+            startPlayer(mergeMediaSource)
             addListener(object : Player.EventListener {
                 override fun onPlayerError(error: ExoPlaybackException?) {
                     val pos = simplePlayer.contentPosition
-                    simplePlayer.startPlayer(mediaSource)
+                    simplePlayer.startPlayer(mergeMediaSource)
                     simplePlayer.seekTo(pos)
                 }
 
@@ -66,40 +143,20 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
                 }
             })
         }
-        moviePlayer.setControllerVisibilityListener {
-            with(activity?.window?.decorView) {
-                if (it == 0)
-                    this?.systemUiVisibility = showSystemUI()
-                else
-                    this?.systemUiVisibility = hideSystemUI()
-            }
-        }
-
-        val subtitleView =
-            activity?.findViewById(com.google.android.exoplayer2.R.id.exo_subtitles) as SubtitleView
-//        subtitleView.visibility = View.GONE
-
     }
 
-    private fun hideSystemUI(): Int {
-        return (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_IMMERSIVE)
-    }
-
-    private fun showSystemUI(): Int {
-        return (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+    private fun addSubtitleForPlayer(data: Uri?) {
+        val factory: DefaultDataSourceFactory = get()
+        val textFormat: Format = get()
+        val textMediaSource: MediaSource = SingleSampleMediaSource.Factory(factory)
+            .createMediaSource(data, textFormat, C.TIME_UNSET)
+        mergeMediaSource = MergingMediaSource(mediaSource, textMediaSource)
+        simplePlayer.addingSubtitle(mergeMediaSource, simplePlayer.currentPosition)
     }
 
 
     override fun onStreamReady(torrent: Torrent?) {
         initPlayer(torrent?.videoFile?.absolutePath!!)
-
     }
 
     override fun onStreamPrepared(torrent: Torrent?) {
@@ -112,13 +169,9 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
     }
 
     override fun onStreamProgress(torrent: Torrent?, status: StreamStatus?) {
-        streamSeeds.text = String.format(resources.getString(R.string.streamSeeds), status?.seeds)
-        streamSpeed.text = String.format(
-            resources.getString(R.string.streamDownloadSpeed),
-            status?.downloadSpeed?.div(1024)
-        )
-        streamProgressTxt.text =
-            String.format(resources.getString(R.string.streamProgress), status?.progress, "%")
+        streamSeeds.formatText(R.string.streamSeeds, status?.seeds)
+        streamSpeed.formatText(R.string.streamDownloadSpeed, status?.downloadSpeed?.div(1024))
+        streamProgressTxt.formatText(R.string.streamProgress, status?.progress, "%")
     }
 
     override fun onStreamError(torrent: Torrent?, e: Exception?) {
@@ -127,32 +180,36 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
 
     override fun onPause() {
         super.onPause()
-        try {
+        if (this::simplePlayer.isInitialized)
             simplePlayer.stopPlayer()
-        } catch (e: UninitializedPropertyAccessException) {
-            println("ERROR: $e")
-        }
+
     }
 
     override fun onResume() {
         super.onResume()
-        try {
+        if (this::simplePlayer.isInitialized)
             simplePlayer.resumePlayer()
-        } catch (e: UninitializedPropertyAccessException) {
-            println("ERROR: $e")
-        }
+
     }
+
     private fun changeStatusBar() {
         activity?.window?.clearFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        if (this::simplePlayer.isInitialized)
-            simplePlayer.release()
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
         torrentStream.removeListener(this)
+        if (this::simplePlayer.isInitialized)
+            simplePlayer.release()
+    }
+
+    override fun onSubtitleClicked(subtitle: OpenSubtitleItem) {
+        viewModel.downloadSubtitle(subtitle,
+            Uri.fromFile(File("${activity?.getExternalFilesDir(null)?.absolutePath}/${subtitle.SubFileName}")))
+
     }
 }

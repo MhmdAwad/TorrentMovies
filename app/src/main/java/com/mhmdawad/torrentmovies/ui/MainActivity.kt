@@ -1,10 +1,12 @@
 package com.mhmdawad.torrentmovies.ui
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.ui.fragments.details.DetailsFragment
+import java.io.FileOutputStream
 
 
 class MainActivity : AppCompatActivity() {
