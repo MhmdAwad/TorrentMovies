@@ -1,7 +1,6 @@
 package com.mhmdawad.torrentmovies.ui.fragments.details
 
 import android.app.AlertDialog
-import android.os.Build
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.util.Log
@@ -9,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -18,9 +16,9 @@ import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerSupportFragmentX
 import com.mhmdawad.torrentmovies.R
-import com.mhmdawad.torrentmovies.data.model.TorrentsDetails
+import com.mhmdawad.torrentmovies.data.model.CastItem
+import com.mhmdawad.torrentmovies.data.model.Movie
 import com.mhmdawad.torrentmovies.utils.*
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.android.synthetic.main.movie_quality_dialog.view.*
 import org.koin.android.viewmodel.ext.android.getViewModel
@@ -58,30 +56,43 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
             when (it) {
                 is Resource.Loading -> Log.d("TAG", "Loading")
                 is Resource.Loaded -> {
-                    with(it.data?.data?.movie) {
-                        Picasso.get().load(this?.backgroundImageOriginal)
-                            .into(detailsMovieBackground)
-                        Picasso.get().load(this?.mediumCoverImage).into(detailsMovieCover)
-                        detailsMovieName.text = this?.titleEnglish
-                        initYoutubePlayer(this?.ytTrailerCode!!)
-                        movieRating(this.rating!!)
-                        playMovieFAB.setOnClickListener {
-                            showMovieQualityDialog(this.torrents!!, requireView())
-                        }
-
-                    }
+                    showMovieDetails(it.data?.data?.movie!!)
                 }
                 is Resource.Error -> Log.d("TAG", "Error ${it.msg}")
             }
-
         })
     }
 
-    private fun movieRating(rating: Double) {
-        rating.apply {
-            movieRatingProgress.progress = (this.toInt()) * 10
-            movieRatingTxt.text = this.toString()
+    private fun showMovieDetails(movie: Movie) {
+        with(movie) {
+            detailsMovieBackground.downloadImage(backgroundImageOriginal)
+            detailsMovieCover.downloadImage(mediumCoverImage)
+            detailsMovieName.text = titleEnglish
+            movieCategory.addCategories(genres!!)
+            movieMpaRating.textOrGone(mpaRating)
+            movieDescription.text = descriptionFull
+            initYoutubePlayer(ytTrailerCode!!)
+            movieRatingTxt.text = rating.toString()
+            initRecyclerViews(
+                cast,
+                listOf(
+                    mediumScreenshotImage1!!,
+                    mediumScreenshotImage2!!,
+                    mediumScreenshotImage3!!
+                )
+            )
+            playMovieFAB.setOnClickListener {
+                showMovieQualityDialog(this, requireView())
+            }
         }
+    }
+
+    private fun initRecyclerViews(castList: List<CastItem>, screenShotImages: List<String>) {
+        if (castList.isEmpty())
+            castLayout.gone()
+        else
+            castRV.adapter = MovieCastAdapter(castList)
+        screenShotsRV.adapter = ScreenShotsAdapter(screenShotImages)
     }
 
     private fun initYoutubePlayer(ytTrailerCode: String) {
@@ -102,7 +113,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
                         if (!wasRestored)
                             ytPlayer.cueVideo(ytTrailerCode)
                     } catch (e: IllegalArgumentException) {
-                        ytFragment?.gone()
+                        youtubeLayout.gone()
                     }
                 }
 
@@ -116,7 +127,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
 
     }
 
-    private fun showMovieQualityDialog(listOfQuality: List<TorrentsDetails>, view: View) {
+    private fun showMovieQualityDialog(movieData: Movie?, view: View) {
         val viewGroup: ViewGroup? = view.findViewById(android.R.id.content)
         val dialogView: View =
             LayoutInflater.from(view.context).inflate(
@@ -127,7 +138,10 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
         builder.setTitle(resources.getString(R.string.movieQuality))
         builder.setView(dialogView)
         alertDialog = builder.create()
-        val movieAdapter = MovieDialogAdapter(listOfQuality, this)
+        val movieAdapter = MovieDialogAdapter(
+            movieData?.torrents!!,
+            "${movieData.titleEnglish} ${movieData.year}", this
+        )
         dialogView.movieQualityRV.apply {
             adapter = movieAdapter
         }
@@ -159,9 +173,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
             findNavController().popBackStack()
     }
 
-
-    override fun selectQuality(url: String) {
-        findNavController().navigate(DetailsFragmentDirections.actionDetailsFragmentToStreamFragment(url))
+    override fun selectQuality(movieUrl: String, movieName: String) {
+        findNavController().navigate(
+            DetailsFragmentDirections.actionDetailsFragmentToStreamFragment(
+                movieUrl,
+                movieName
+            )
+        )
         alertDialog.dismiss()
     }
 }

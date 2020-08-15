@@ -81,4 +81,9 @@ dependencies {
 
     // ExoPlayer
     implementation 'com.google.android.exoplayer:exoplayer:2.9.6'
+
+    //OpenSubtitles
+    implementation 'com.github.masterwok:open-subtitles-android:0.0.8'
+
+
 }

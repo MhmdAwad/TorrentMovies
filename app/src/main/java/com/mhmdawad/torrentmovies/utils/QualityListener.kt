@@ -4,5 +4,5 @@ import com.mhmdawad.torrentmovies.data.model.TorrentsDetails
 
 interface QualityListener {
 
-    fun selectQuality(url: String)
+    fun selectQuality(movieUrl: String, movieName:String)
 }
