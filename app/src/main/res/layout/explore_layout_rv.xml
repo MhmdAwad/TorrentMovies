@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/movieCard"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/movieCover"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="160dp"
             android:scaleType="fitXY"
             android:background="@color/colorBlueGray"
             android:contentDescription="@string/movieCover" />

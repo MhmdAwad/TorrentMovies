@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/firstQualityCard"
+        android:id="@+id/qualityCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="16dp"
-            android:text="TextView"
+            android:textColor="@color/colorWhite"
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 

@@ -9,9 +9,7 @@ import com.mhmdawad.torrentmovies.data.model.MoviesItem
 import com.mhmdawad.torrentmovies.utils.AdapterListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.explore_layout_rv.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class ExploreAdapter(private val adapterListener: AdapterListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -85,7 +83,7 @@ class ExploreAdapter(private val adapterListener: AdapterListener) :
     }
 
     fun updateList(list: List<MoviesItem>) {
-        runBlocking { distinctList(list) }
+        GlobalScope.launch { distinctList(list) }
         notifyItemInserted(moviesList.size-1)
     }
 

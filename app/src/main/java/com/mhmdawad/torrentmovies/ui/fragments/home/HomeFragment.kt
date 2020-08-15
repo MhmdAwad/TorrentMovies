@@ -54,6 +54,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener {
 
     private fun observeObservers() {
         viewModel.getMovies().observe(viewLifecycleOwner, Observer { dataObserve->
+            refreshMoviesList.isRefreshing = false
+
             when (dataObserve) {
                 is Resource.Error -> Log.d("TAG", "Error ${dataObserve.msg}")
                 is Resource.Loading -> Log.d("TAG", "Loading")
@@ -75,6 +77,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener {
                     }
                 }
             }
+
         })
     }
 
@@ -92,6 +95,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener {
             }
             return@setOnEditorActionListener false
         }
+        refreshMoviesList.setOnRefreshListener { viewModel.refreshData() }
     }
 
     private fun closeSearch(context: Context) {

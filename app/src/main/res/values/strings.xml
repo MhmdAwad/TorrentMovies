@@ -11,5 +11,10 @@
     <string name="streamSeeds">Seeds: %d</string>
     <string name="streamProgress">%1$.2f %2$s</string>
     <string name="streamDownloadSpeed">Speed: %d KB</string>
+    <string name="movieQualityType">%1$s %2$s</string>
+    <string name="description">Description</string>
+    <string name="cast">Cast</string>
+    <string name="screenshots">ScreenShots</string>
+    <string name="trailer">Trailer</string>
 
 </resources>

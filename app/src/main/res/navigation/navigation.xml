@@ -38,6 +38,9 @@
             android:name="movieUrl"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="movieName"
+            app:argType="string" />
     </fragment>
 
 

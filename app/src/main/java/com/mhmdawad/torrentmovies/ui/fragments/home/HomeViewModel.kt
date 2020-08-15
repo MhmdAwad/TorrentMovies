@@ -21,6 +21,10 @@ class HomeViewModel(private val repository: MainRepository) : ViewModel() {
         moviesCategoryList()
     }
 
+    fun refreshData(){
+        pageNumber = 0
+        loadMoreData()
+    }
     fun loadMoreData() {
         if (lastDataToLoad.first)
             moviesCategoryList(lastDataToLoad.second, ++pageNumber)
