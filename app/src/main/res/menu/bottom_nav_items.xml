@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/homeFragment"
+        android:title="@string/explore"
+        android:icon="@drawable/ic_explore"/>
+
+    <item android:id="@+id/rankFragment"
+        android:title="@string/rank"
+        android:icon="@drawable/ic_crown"/>
+
+    <item android:id="@+id/favoriteFragment"
+        android:title="@string/favorite"
+        android:icon="@drawable/ic_heart"/>
+</menu>

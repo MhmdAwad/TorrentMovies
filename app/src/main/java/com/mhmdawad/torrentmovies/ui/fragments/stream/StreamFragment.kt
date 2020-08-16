@@ -31,7 +31,8 @@ import org.koin.core.get
 import java.io.File
 
 
-class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, TorrentListener, SubtitleListener {
+class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, TorrentListener,
+    SubtitleListener, Player.EventListener {
 
     private val args: StreamFragmentArgs by navArgs()
     private lateinit var simplePlayer: SimpleExoPlayer
@@ -89,9 +90,9 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
             when(it){
                 is Resource.Loaded-> {
                     alertDialog.dismiss()
-                    addSubtitleForPlayer(it.data)
+                    addSubtitleToPlayer(it.data)
                 }
-                is Resource.Error -> println("Errrrrrrrrrrrrrrrrrrr ${it.msg}")
+                is Resource.Error -> showToast("Error with adding subtitle, Please try again..")
             }
         })
     }
@@ -128,54 +129,42 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
         mergeMediaSource = MergingMediaSource(mediaSource)
         simplePlayer.apply {
             startPlayer(mergeMediaSource)
-            addListener(object : Player.EventListener {
-                override fun onPlayerError(error: ExoPlaybackException?) {
-                    val pos = simplePlayer.contentPosition
-                    simplePlayer.startPlayer(mergeMediaSource)
-                    simplePlayer.seekTo(pos)
-                }
-
-                override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-                    if (playWhenReady && playbackState == Player.STATE_READY)
-                        progressContainer.gone()
-                    else if (playWhenReady && playbackState == Player.STATE_BUFFERING)
-                        progressContainer.show()
-                }
-            })
+            addListener(this@StreamFragment)
         }
     }
 
-    private fun addSubtitleForPlayer(data: Uri?) {
+    private fun addSubtitleToPlayer(data: Uri?) {
         val factory: DefaultDataSourceFactory = get()
         val textFormat: Format = get()
-        val textMediaSource: MediaSource = SingleSampleMediaSource.Factory(factory)
+        val textMediaSource = SingleSampleMediaSource.Factory(factory)
             .createMediaSource(data, textFormat, C.TIME_UNSET)
         mergeMediaSource = MergingMediaSource(mediaSource, textMediaSource)
         simplePlayer.addingSubtitle(mergeMediaSource, simplePlayer.currentPosition)
     }
 
+    override fun onPlayerError(error: ExoPlaybackException?) {
+        simplePlayer.seekPlayer(simplePlayer.contentPosition, mergeMediaSource)
+    }
+
+    override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+        if (playWhenReady && playbackState == Player.STATE_READY)
+            progressContainer.gone()
+        else if (playWhenReady && playbackState == Player.STATE_BUFFERING)
+            progressContainer.show()
+    }
 
     override fun onStreamReady(torrent: Torrent?) {
         initPlayer(torrent?.videoFile?.absolutePath!!)
     }
 
-    override fun onStreamPrepared(torrent: Torrent?) {
-    }
-
-    override fun onStreamStopped() {
-    }
-
-    override fun onStreamStarted(torrent: Torrent?) {
-    }
-
     override fun onStreamProgress(torrent: Torrent?, status: StreamStatus?) {
-        streamSeeds.formatText(R.string.streamSeeds, status?.seeds)
-        streamSpeed.formatText(R.string.streamDownloadSpeed, status?.downloadSpeed?.div(1024))
-        streamProgressTxt.formatText(R.string.streamProgress, status?.progress, "%")
-    }
-
-    override fun onStreamError(torrent: Torrent?, e: Exception?) {
-        Log.i("TAG", "onStreamError $e")
+        try {
+            streamSeeds.formatText(R.string.streamSeeds, status?.seeds)
+            streamSpeed.formatText(R.string.streamDownloadSpeed, status?.downloadSpeed?.div(1024))
+            streamProgressTxt.formatText(R.string.streamProgress, status?.progress, "%")
+        }catch (e: IllegalStateException){
+            println("ERROR: $e")
+        }
     }
 
     override fun onPause() {
@@ -199,8 +188,8 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onStop() {
+        super.onStop()
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
         torrentStream.removeListener(this)
         if (this::simplePlayer.isInitialized)
@@ -211,5 +200,18 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
         viewModel.downloadSubtitle(subtitle,
             Uri.fromFile(File("${activity?.getExternalFilesDir(null)?.absolutePath}/${subtitle.SubFileName}")))
 
+    }
+
+    override fun onStreamPrepared(torrent: Torrent?) {
+    }
+
+    override fun onStreamStopped() {
+    }
+
+    override fun onStreamStarted(torrent: Torrent?) {
+    }
+
+    override fun onStreamError(torrent: Torrent?, e: Exception?) {
+        Log.i("TAG", "onStreamError $e")
     }
 }

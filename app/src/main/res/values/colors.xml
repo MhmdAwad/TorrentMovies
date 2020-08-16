@@ -11,4 +11,7 @@
     <color name="colorYellow">#DAB16F</color>
     <color name="colorBlack">#00FFFFFF</color>
     <color name="colorBlackBackground">#99171717</color>
+    <color name="colorBlue">#1750C4</color>
+    <color name="colorFillWhite">#1e2747</color>
+    <color name="colorGray">#C0CADB</color>
 </resources>

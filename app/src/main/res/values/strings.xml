@@ -16,5 +16,9 @@
     <string name="cast">Cast</string>
     <string name="screenshots">ScreenShots</string>
     <string name="trailer">Trailer</string>
+    <string name="explore">Explore</string>
+    <string name="filter">Filter</string>
+    <string name="rank">Rank</string>
+    <string name="favorite">Favorite</string>
 
 </resources>

@@ -3,7 +3,6 @@ package com.mhmdawad.torrentmovies.ui.fragments.home
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.GridLayoutAnimationController
@@ -161,8 +160,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener, IOnBackP
         findNavController().navigate(action, extras)
     }
 
-    override fun onBackPressed():Boolean {
-        if (exploreAdapter.currentPosition > 10){
+    override fun onResume() {
+        super.onResume()
+        activity?.showBottomNav()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity?.hideBottomNav()
+    }
+
+    override fun onBackPressed(): Boolean {
+        if (exploreAdapter.currentPosition > 10) {
             viewModel.refreshData()
             return false
         }

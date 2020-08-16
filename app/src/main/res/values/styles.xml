@@ -9,8 +9,16 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
+    <style name="BottomNavigationTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorBlue</item>
+        <item name="android:background">@color/colorFillWhite</item>
+        <item name="android:textColorSecondary">@color/colorGray</item>
+    </style>
+
     <style name="CircularDeterminateProgressBar">
         <item name="android:indeterminateOnly">false</item>
         <item name="android:progressDrawable">@drawable/circle_shape</item>
     </style>
+
+
 </resources>
