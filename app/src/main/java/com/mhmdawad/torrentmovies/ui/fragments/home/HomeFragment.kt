@@ -18,11 +18,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.utils.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import org.koin.android.ext.android.getKoin
 import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.core.KoinComponent
+import org.koin.core.get
 
 
-class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener, IOnBackPressed {
+class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener, IOnBackPressed, KoinComponent {
 
     private lateinit var viewModel: HomeViewModel
     private val exploreAdapter by lazy {
@@ -77,7 +78,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener, IOnBackP
                     }
                 }
             }
-
         })
     }
 
@@ -114,7 +114,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener, IOnBackP
     }
 
     private fun animationRV() {
-        val controller: GridLayoutAnimationController = getKoin().get()
+        val controller: GridLayoutAnimationController = get()
         exploreRV.layoutAnimation = controller
         exploreRV.startLayoutAnimation()
     }
@@ -158,16 +158,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener, IOnBackP
                 movieID
             )
         findNavController().navigate(action, extras)
+        activity?.hideBottomNav()
     }
 
     override fun onResume() {
         super.onResume()
         activity?.showBottomNav()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        activity?.hideBottomNav()
     }
 
     override fun onBackPressed(): Boolean {

@@ -42,6 +42,16 @@
             android:name="movieName"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.mhmdawad.torrentmovies.ui.fragments.favorites.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/rankFragment"
+        android:name="com.mhmdawad.torrentmovies.ui.fragments.rank.RankFragment"
+        android:label="fragment_rank"
+        tools:layout="@layout/fragment_rank" />
 
 
 </navigation>
