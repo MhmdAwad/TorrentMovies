@@ -16,4 +16,6 @@ interface ApiService {
     @GET("movie_details.json?with_images=true&with_cast=true")
     suspend fun getMovieDetails(@Query("movie_id") id: Int) : MovieDetails
 
+    @GET("list_movies.json?sort_by=rating")
+    suspend fun getRankMovies(@Query("page") page: Int): MoviesResponse
 }

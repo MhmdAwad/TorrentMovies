@@ -65,7 +65,7 @@ data class MoviesItem(
 	val mpaRating: String? = null,
 
 	@field:SerializedName("genres")
-	val genres: List<String?>? = null,
+	val genres: List<String>? = null,
 
 	@field:SerializedName("title_english")
 	val titleEnglish: String? = null,

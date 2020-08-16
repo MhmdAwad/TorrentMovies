@@ -2,6 +2,7 @@ package com.mhmdawad.torrentmovies.utils
 
 import android.app.Activity
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -85,10 +86,19 @@ fun SimpleExoPlayer.stopPlayer() {
     playbackState
 }
 
-fun ImageView.downloadImage(image: String?) {
-    Picasso.get().load(image).placeholder(R.drawable.ic_profession).into(this)
+fun ImageView.downloadImage(image: String?, addPlaceHolder: Boolean = false) {
+    Picasso.get().load(image).apply {
+        if(addPlaceHolder)
+            placeholder(R.drawable.ic_profession).into(this@downloadImage)
+        else
+            into(this@downloadImage)
+    }
 }
-
+fun Fragment.clearNoLimitFlag() {
+    activity?.window?.clearFlags(
+        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+    )
+}
 fun TextView.textOrGone(s: String?) {
     if (s!!.isEmpty())
         invisible()

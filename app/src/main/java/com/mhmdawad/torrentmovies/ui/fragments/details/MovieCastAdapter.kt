@@ -42,7 +42,7 @@ class MovieCastAdapter(private val castList: List<CastItem>) :
     class CastViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: CastItem) = with(itemView) {
-            castImage.downloadImage(item.urlSmallImage)
+            castImage.downloadImage(item.urlSmallImage, true)
             castName.text = item.name
         }
     }

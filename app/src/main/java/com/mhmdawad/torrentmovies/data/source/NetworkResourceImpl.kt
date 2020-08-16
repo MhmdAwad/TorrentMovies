@@ -14,4 +14,6 @@ class NetworkResourceImpl(private val apiService: ApiService): INetworkResource 
     override suspend fun movieDetails(id: Int): MovieDetails =
         apiService.getMovieDetails(id)
 
+    override suspend fun rankMovies(page: Int): MoviesResponse =
+        apiService.getRankMovies(page)
 }

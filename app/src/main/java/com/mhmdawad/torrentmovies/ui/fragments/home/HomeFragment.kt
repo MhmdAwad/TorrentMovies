@@ -44,7 +44,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener, IOnBackP
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = getViewModel()
-        changeStatusBar()
+        clearNoLimitFlag()
         initRecyclerViews()
         viewsListener(view.context)
         observeObservers()
@@ -140,17 +140,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener, IOnBackP
     }
 
 
-    private fun changeStatusBar() {
-        activity?.window?.clearFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
-    }
-
     override fun itemClicked(pos: Int) {
         viewModel.moviesCategoryList(categoryList[pos].second)
     }
 
-    override fun openMovie(movieID: Int, movieBackground: String, imageView: ImageView) {
+    override fun openMovie(movieID: Int, imageView: ImageView) {
         val extras =
             FragmentNavigatorExtras(imageView to resources.getString(R.string.transitionName))
         val action =

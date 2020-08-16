@@ -39,7 +39,6 @@ class ExploreAdapter(private val adapterListener: AdapterListener) :
     inner class ExploreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(moviesItem: MoviesItem) = with(itemView) {
             with(moviesItem) {
-
                 currentPosition = adapterPosition
                 movieName.text = titleEnglish
                 movieRating.rating = (rating?.div(2))?.toFloat()!!
@@ -51,7 +50,6 @@ class ExploreAdapter(private val adapterListener: AdapterListener) :
                 setOnClickListener {
                     adapterListener.openMovie(
                         id!!,
-                        backgroundImageOriginal!!,
                         movieCover
                     )
                 }

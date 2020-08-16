@@ -6,6 +6,6 @@ interface AdapterListener {
 
     fun itemClicked(pos: Int)
 
-    fun openMovie(movieID: Int,movieBackground: String, imageView: ImageView)
+    fun openMovie(movieID: Int,imageView: ImageView)
 
 }

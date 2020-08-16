@@ -18,4 +18,10 @@ class MainRepository(private val networkResource: INetworkResource) {
         return networkResource.movieDetails(id)
     }
 
+    suspend fun getRankingMovies(page: Int): MoviesResponse {
+        return networkResource.rankMovies(page)
+    }
+
+
+
 }
