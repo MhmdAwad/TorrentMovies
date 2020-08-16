@@ -7,8 +7,8 @@ import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.mhmdawad.torrentmovies.R
-import com.mhmdawad.torrentmovies.ui.fragments.home.HomeFragmentDirections
 import com.mhmdawad.torrentmovies.utils.*
 import kotlinx.android.synthetic.main.fragment_rank.*
 import org.koin.android.viewmodel.ext.android.getViewModel
@@ -21,7 +21,6 @@ class RankFragment : Fragment(R.layout.fragment_rank), AdapterListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = getViewModel()
-        viewModel.getRankingMovies()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,29 +29,56 @@ class RankFragment : Fragment(R.layout.fragment_rank), AdapterListener {
         clearNoLimitFlag()
         initRecyclerView()
         observeObservers()
+        viewsListener()
+    }
+
+    private fun viewsListener() {
+        rankSwipeRefresh.setOnRefreshListener {
+            viewModel.refreshData()
+        }
     }
 
     private fun observeObservers() {
         viewModel.observeRankMovies().observe(viewLifecycleOwner, Observer {
-            when(it){
-                is Resource.Loading-> rankSwipeRefresh.isRefreshing = true
-                is Resource.Loaded-> {
+            when (it) {
+                is Resource.Loading -> rankSwipeRefresh.isRefreshing = true
+                is Resource.Loaded -> {
                     rankAdapter.addList(it.data?.data?.movies!!)
                     rankSwipeRefresh.isRefreshing = false
                     rankNoInternet.gone()
+                    rankRV.show()
+                    rankRV.smoothScrollToPosition(0)
                 }
-                is Resource.Error->{
+                is Resource.Error -> {
                     rankSwipeRefresh.isRefreshing = false
-                    rankNoInternet.show()
+                    if(rankAdapter.itemCount < 10){
+                        rankNoInternet.show()
+                        rankRV.gone()
+                    }
+                }
+                is Resource.NewData -> {
+                    rankSwipeRefresh.isRefreshing = false
+                    rankAdapter.updateList(it.data?.data?.movies!!)
                 }
             }
         })
     }
 
     private fun initRecyclerView() {
-        rankRV.adapter = rankAdapter
+        rankRV.apply {
+            adapter = rankAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(
+                    recyclerView: RecyclerView,
+                    newState: Int
+                ) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(1))
+                        viewModel.loadMoreData()
+                }
+            })
+        }
     }
-
 
     override fun openMovie(movieID: Int, imageView: ImageView) {
         val extras =

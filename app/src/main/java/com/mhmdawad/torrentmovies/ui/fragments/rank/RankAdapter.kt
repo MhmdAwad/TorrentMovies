@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.data.model.MoviesItem
-import com.mhmdawad.torrentmovies.utils.AdapterListener
-import com.mhmdawad.torrentmovies.utils.addCategories
-import com.mhmdawad.torrentmovies.utils.downloadImage
+import com.mhmdawad.torrentmovies.utils.*
 import kotlinx.android.synthetic.main.movies_rank_rv.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class RankAdapter(private val adapterListener: AdapterListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -42,18 +42,21 @@ class RankAdapter(private val adapterListener: AdapterListener) :
         return moviesList.size
     }
 
-    fun addList(list: List<MoviesItem>){
-        moviesList.apply {
-            clear()
-            addAll(list)
-        }
+
+    fun addList(list: List<MoviesItem>) {
+        this.moviesList.addList(list)
         notifyDataSetChanged()
+    }
+
+    fun updateList(list: List<MoviesItem>) {
+        GlobalScope.launch { moviesList.distinctList(list) }
+        notifyItemInserted(moviesList.size)
     }
 
     inner class RankViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: MoviesItem) = with(itemView) {
             startAnimation(AnimationUtils.loadAnimation(this.context, R.anim.slide_right_to_left))
-            rankMovieSort.text = if(adapterPosition > 99) "99+" else (adapterPosition+1).toString().format(2)
+            rankMovieSort.text = if(adapterPosition > 98) "99+" else (adapterPosition+1).toString().format(2)
             rankMovieName.text = item.titleEnglish
             rankMovieRating.rating = (item.rating?.div(2))?.toFloat()!!
             rankMovieRatingTxt.text = item.rating.toString()

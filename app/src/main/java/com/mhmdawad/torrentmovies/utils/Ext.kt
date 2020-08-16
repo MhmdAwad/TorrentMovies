@@ -12,7 +12,10 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MergingMediaSource
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mhmdawad.torrentmovies.R
+import com.mhmdawad.torrentmovies.data.model.MoviesItem
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 fun Activity.hideBottomNav() {
@@ -89,7 +92,7 @@ fun SimpleExoPlayer.stopPlayer() {
 fun ImageView.downloadImage(image: String?, addPlaceHolder: Boolean = false) {
     Picasso.get().load(image).apply {
         if(addPlaceHolder)
-            placeholder(R.drawable.ic_profession).into(this@downloadImage)
+            placeholder(R.drawable.ic_man).into(this@downloadImage)
         else
             into(this@downloadImage)
     }
@@ -142,4 +145,22 @@ fun Fragment.showSystemUI(): Int {
 fun TextView.formatText(stringPath: Int, obj1: Any?, obj2: Any? = 0) {
     text = String.format(resources.getString(stringPath), obj1, obj2)
 }
+
+suspend fun MutableList<MoviesItem>.distinctList(list: List<MoviesItem>) {
+    withContext(Dispatchers.IO) {
+        this@distinctList.apply {
+            addAll(list)
+            val desList = distinctBy { it.id }
+            clear()
+            addAll(desList)
+        }
+    }
+}
+fun MutableList<MoviesItem>.addList(list: List<MoviesItem>){
+    this.apply {
+        clear()
+        addAll(list)
+    }
+}
+
 

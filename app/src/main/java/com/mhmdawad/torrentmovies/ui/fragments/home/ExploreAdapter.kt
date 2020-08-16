@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.data.model.MoviesItem
 import com.mhmdawad.torrentmovies.utils.AdapterListener
+import com.mhmdawad.torrentmovies.utils.addList
+import com.mhmdawad.torrentmovies.utils.distinctList
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.explore_layout_rv.view.*
 import kotlinx.coroutines.*
@@ -58,28 +60,13 @@ class ExploreAdapter(private val adapterListener: AdapterListener) :
     }
 
     fun addList(list: List<MoviesItem>) {
-        this.moviesList.apply {
-            clear()
-            addAll(list)
-            notifyDataSetChanged()
-        }
-
+        this.moviesList.addList(list)
+        notifyDataSetChanged()
     }
 
     fun updateList(list: List<MoviesItem>) {
-        GlobalScope.launch { distinctList(list) }
+        GlobalScope.launch { moviesList.distinctList(list) }
         notifyItemInserted(moviesList.size)
-    }
-
-    private suspend fun distinctList(list: List<MoviesItem>) {
-        withContext(Dispatchers.IO) {
-            moviesList.apply {
-                addAll(list)
-                val desList = distinctBy { it.id }
-                clear()
-                addAll(desList)
-            }
-        }
     }
 
 }

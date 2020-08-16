@@ -10,7 +10,7 @@
     </style>
 
     <style name="BottomNavigationTheme" parent="Theme.AppCompat.Light">
-        <item name="colorPrimary">@color/colorBlue</item>
+        <item name="colorPrimary">@color/colorAccent</item>
         <item name="android:background">@color/colorFillWhite</item>
         <item name="android:textColorSecondary">@color/colorGray</item>
     </style>
