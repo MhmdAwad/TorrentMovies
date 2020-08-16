@@ -166,11 +166,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
         ytFullScreen = screen
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed():Boolean {
         if (ytFullScreen)
             ytPlayer.setFullscreen(false)
         else
             findNavController().popBackStack()
+        return false
     }
 
     override fun selectQuality(movieUrl: String, movieName: String) {
