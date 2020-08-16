@@ -3,7 +3,6 @@ package com.mhmdawad.torrentmovies.ui.fragments.details
 import android.app.AlertDialog
 import android.os.Bundle
 import android.transition.TransitionInflater
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -91,6 +90,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
             )
             playMovieFAB.setOnClickListener {
                 showMovieQualityDialog(this, requireView())
+            }
+            detailsBackArrow.setOnClickListener{
+                findNavController().popBackStack()
             }
         }
     }
