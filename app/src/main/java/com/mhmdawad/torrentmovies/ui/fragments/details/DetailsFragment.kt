@@ -54,11 +54,19 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
     private fun observeObservers() {
         viewModel.getMovieDetails().observe(viewLifecycleOwner, Observer {
             when (it) {
-                is Resource.Loading -> Log.d("TAG", "Loading")
+                is Resource.Loading -> {
+                    detailsNoInternet.gone()
+                    detailsContainer.show()
+                }
                 is Resource.Loaded -> {
+                    detailsContainer.show()
+                    detailsNoInternet.gone()
                     showMovieDetails(it.data?.data?.movie!!)
                 }
-                is Resource.Error -> Log.d("TAG", "Error ${it.msg}")
+                is Resource.Error -> {
+                    detailsContainer.gone()
+                    detailsNoInternet.show()
+                }
             }
         })
     }

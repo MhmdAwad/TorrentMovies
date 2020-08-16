@@ -6,247 +6,258 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorDark"
-        tools:context=".ui.fragments.details.DetailsFragment">
+        android:background="@color/colorDark">
 
-        <ImageView
-            android:id="@+id/detailsMovieCover"
-            android:layout_width="130dp"
-            android:layout_height="160dp"
-            android:layout_marginStart="8dp"
-            android:background="@color/colorBlueGray"
-            android:elevation="8dp"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
-
-        <FrameLayout
-            android:id="@+id/frameLayout"
+        <include
+            android:id="@+id/detailsNoInternet"
+            layout="@layout/no_internet_connection"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/detailsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/detailsMovieBackground"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:id="@+id/detailsMovieCover"
+                android:layout_width="130dp"
+                android:layout_height="160dp"
+                android:layout_marginStart="8dp"
                 android:background="@color/colorBlueGray"
+                android:elevation="8dp"
                 android:scaleType="fitXY"
-                android:transitionName="imageView" />
+                app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
             <FrameLayout
+                android:id="@+id/frameLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/gradient_bg"/>
-        </FrameLayout>
+                android:layout_height="200dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/detailsMovieName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textColor="@color/colorWhite"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/playMovieFAB"
-            app:layout_constraintStart_toEndOf="@+id/detailsMovieCover"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+                <ImageView
+                    android:id="@+id/detailsMovieBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorBlueGray"
+                    android:scaleType="fitXY"
+                    android:transitionName="imageView" />
 
-
-        <LinearLayout
-            android:id="@+id/ratingLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/playMovieFAB">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_imdb" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_bg" />
+            </FrameLayout>
 
             <TextView
-                android:id="@+id/movieRatingTxt"
-                android:layout_width="wrap_content"
+                android:id="@+id/detailsMovieName"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite"
                 android:textStyle="bold"
-                android:layout_marginStart="8dp"
-                android:text="9.8" />
+                app:layout_constraintEnd_toStartOf="@+id/playMovieFAB"
+                app:layout_constraintStart_toEndOf="@+id/detailsMovieCover"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
-        </LinearLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/playMovieFAB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-            app:srcCompat="@android:drawable/ic_media_play" />
+            <LinearLayout
+                android:id="@+id/ratingLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/playMovieFAB">
 
-        <TextView
-            android:id="@+id/movieCategory"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:textColor="@color/colorOffWhite"
-            app:layout_constraintEnd_toStartOf="@+id/ratingLayout"
-            app:layout_constraintStart_toEndOf="@+id/detailsMovieCover"
-            app:layout_constraintTop_toBottomOf="@+id/detailsMovieName" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_imdb" />
 
-        <TextView
-            android:id="@+id/movieMpaRating"
-            android:layout_width="48dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/colored_circle"
-            android:gravity="center"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintEnd_toStartOf="@+id/ratingLayout"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/detailsMovieCover"
-            app:layout_constraintTop_toBottomOf="@+id/movieCategory" />
+                <TextView
+                    android:id="@+id/movieRatingTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="9.8"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="@string/description"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/youtubeLayout" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/movieDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            tools:text="TextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-        <LinearLayout
-            android:id="@+id/castLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="32dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/screenShotsRV"
-            app:layout_constraintVertical_bias="0.0">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/playMovieFAB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+                app:srcCompat="@android:drawable/ic_media_play" />
 
             <TextView
-                android:id="@+id/textView6"
-                android:layout_width="match_parent"
+                android:id="@+id/movieCategory"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/cast"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorOffWhite"
+                app:layout_constraintEnd_toStartOf="@+id/ratingLayout"
+                app:layout_constraintStart_toEndOf="@+id/detailsMovieCover"
+                app:layout_constraintTop_toBottomOf="@+id/detailsMovieName" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/castRV"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/movieMpaRating"
+                android:layout_width="48dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/colored_circle"
+                android:gravity="center"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintEnd_toStartOf="@+id/ratingLayout"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/detailsMovieCover"
+                app:layout_constraintTop_toBottomOf="@+id/movieCategory" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/description"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/youtubeLayout" />
+
+            <TextView
+                android:id="@+id/movieDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4"
+                tools:text="TextView" />
+
+            <LinearLayout
+                android:id="@+id/castLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="32dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/screenShotsRV"
+                app:layout_constraintVertical_bias="0.0">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/cast"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/colorWhite" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/castRV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="32dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="@string/screenshots"
-            android:textColor="@color/colorWhite"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieDescription" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/screenShotsRV"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-
-        <LinearLayout
-            android:id="@+id/youtubeLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieMpaRating">
 
             <TextView
-                android:id="@+id/textView8"
-                android:layout_width="match_parent"
+                android:id="@+id/textView7"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/trailer"
+                android:text="@string/screenshots"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/colorWhite"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/movieDescription" />
 
-            <fragment
-                android:id="@+id/trailerView"
-                android:name="com.google.android.youtube.player.YouTubePlayerSupportFragmentX"
-                android:layout_width="match_parent"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/screenShotsRV"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" />
-        </LinearLayout>
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/youtubeLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/movieMpaRating">
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/trailer"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/colorWhite" />
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/trailerView"
+                    android:name="com.google.android.youtube.player.YouTubePlayerSupportFragmentX"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </androidx.core.widget.NestedScrollView>

@@ -7,7 +7,7 @@ class Constants {
 
         fun getMoviesGenre(): MutableList<Pair<String, String>> {
             val genrePair: MutableList<Pair<String, String>> = mutableListOf()
-            genrePair.add(Pair("Recommend",""))
+            genrePair.add(Pair(" All ",""))
             genrePair.add(Pair("Comedy","Comedy"))
             genrePair.add(Pair("Science fiction","sci-fi"))
             genrePair.add(Pair("Horror","Horror"))
