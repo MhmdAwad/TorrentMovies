@@ -17,15 +17,13 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.mhmdawad.torrentmovies.R
-import com.mhmdawad.torrentmovies.utils.AdapterListener
-import com.mhmdawad.torrentmovies.utils.Constants
-import com.mhmdawad.torrentmovies.utils.Resource
+import com.mhmdawad.torrentmovies.utils.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.ext.android.getKoin
 import org.koin.android.viewmodel.ext.android.getViewModel
 
 
-class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener {
+class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener, IOnBackPressed {
 
     private lateinit var viewModel: HomeViewModel
     private val exploreAdapter by lazy {
@@ -53,27 +51,30 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener {
     }
 
     private fun observeObservers() {
-        viewModel.getMovies().observe(viewLifecycleOwner, Observer { dataObserve->
-            refreshMoviesList.isRefreshing = false
-
+        viewModel.getMovies().observe(viewLifecycleOwner, Observer { dataObserve ->
             when (dataObserve) {
-                is Resource.Error -> Log.d("TAG", "Error ${dataObserve.msg}")
-                is Resource.Loading -> Log.d("TAG", "Loading")
+                is Resource.Error -> {
+                    refreshMoviesList.isRefreshing = false
+                    if (exploreAdapter.itemCount < 10) {
+                        homeInternetConnection.show()
+                        exploreRV.gone()
+                    }
+                }
+                is Resource.Loading -> refreshMoviesList.isRefreshing = true
                 is Resource.Loaded -> {
-                    with(dataObserve.data?.data?.movies){
-                        if (this!!.size < 20)
-                            exploreAdapter.stopLoading()
+                    refreshMoviesList.isRefreshing = false
+                    homeInternetConnection.gone()
+                    exploreRV.show()
+                    with(dataObserve.data?.data?.movies) {
                         exploreRV.scrollToPosition(0)
-                        exploreAdapter.addList(this)
+                        exploreAdapter.addList(this!!)
                         animationRV()
                     }
                 }
                 is Resource.NewData -> {
-                    with(dataObserve.data?.data?.movies){
-                        if (this!!.isEmpty())
-                            exploreAdapter.stopLoading()
-                        else
-                            exploreAdapter.updateList(this)
+                    refreshMoviesList.isRefreshing = false
+                    with(dataObserve.data?.data?.movies) {
+                        exploreAdapter.updateList(this!!)
                     }
                 }
             }
@@ -81,7 +82,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener {
         })
     }
 
-    private fun viewsListener(context: Context){
+    private fun viewsListener(context: Context) {
         textView.setOnClickListener {
             NavHostFragment.findNavController(this)
                 .navigate(R.id.action_homeFragment_to_detailsFragment)
@@ -129,7 +130,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener {
                     newState: Int
                 ) {
                     super.onScrollStateChanged(recyclerView, newState)
-                    if (!recyclerView.canScrollVertically(1) && exploreAdapter.loadMore())
+                    if (!recyclerView.canScrollVertically(1))
                         viewModel.loadMoreData()
                 }
             })
@@ -147,17 +148,25 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener {
     }
 
     override fun itemClicked(pos: Int) {
-        exploreAdapter.keepLoading()
         viewModel.moviesCategoryList(categoryList[pos].second)
     }
 
     override fun openMovie(movieID: Int, movieBackground: String, imageView: ImageView) {
-        val extras = FragmentNavigatorExtras(imageView to resources.getString(R.string.transitionName))
+        val extras =
+            FragmentNavigatorExtras(imageView to resources.getString(R.string.transitionName))
         val action =
             HomeFragmentDirections.actionHomeFragmentToDetailsFragment(
                 movieID
             )
         findNavController().navigate(action, extras)
+    }
+
+    override fun onBackPressed():Boolean {
+        if (exploreAdapter.currentPosition > 10){
+            viewModel.refreshData()
+            return false
+        }
+        return true
     }
 
 }

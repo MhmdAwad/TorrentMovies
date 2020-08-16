@@ -15,60 +15,46 @@ class ExploreAdapter(private val adapterListener: AdapterListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val moviesList: MutableList<MoviesItem> = mutableListOf()
-    private var loading = true
+    var currentPosition = 0
+        private set
 
-    companion object {
-        private const val LOADING_VIEW = 1
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        return when (viewType) {
-            LOADING_VIEW -> LoadingViewHolder(
-                inflater.inflate(
-                    R.layout.loading_layout_rv,
-                    parent,
-                    false
-                )
-            )
-            else -> ExploreViewHolder(inflater.inflate(R.layout.explore_layout_rv, parent, false))
-        }
-    }
-
-    override fun getItemViewType(position: Int): Int =
-        if (position == moviesList.size && loading) 1
-        else 0
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        ExploreViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.explore_layout_rv, parent, false)
+        )
 
 
-    override fun getItemCount(): Int = moviesList.size + 1
+    override fun getItemCount(): Int = moviesList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ExploreViewHolder -> {
-                    if(position < moviesList.size){
-                        holder.bind(moviesList[position])
-                    }
+                if (position < moviesList.size) {
+                    holder.bind(moviesList[position])
+                }
             }
         }
     }
 
-    inner class LoadingViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){}
-
     inner class ExploreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(moviesItem: MoviesItem) = with(itemView) {
-            movieName.text = moviesItem.titleEnglish
-            movieRating.rating = (moviesItem.rating?.div(2))?.toFloat()!!
-            movieRatingNum.text = moviesItem.rating.toString()
-            movieCover.apply {
-                Picasso.get().load(moviesItem.mediumCoverImage).into(this)
-                transitionName = moviesItem.backgroundImageOriginal
-            }
-            setOnClickListener {
-                adapterListener.openMovie(
-                    moviesItem.id!!,
-                    moviesItem.backgroundImageOriginal!!,
-                    movieCover
-                )
+            with(moviesItem) {
+
+                currentPosition = adapterPosition
+                movieName.text = titleEnglish
+                movieRating.rating = (rating?.div(2))?.toFloat()!!
+                movieRatingNum.text = rating.toString()
+                movieCover.apply {
+                    Picasso.get().load(mediumCoverImage).into(this)
+                    transitionName = backgroundImageOriginal
+                }
+                setOnClickListener {
+                    adapterListener.openMovie(
+                        id!!,
+                        backgroundImageOriginal!!,
+                        movieCover
+                    )
+                }
             }
         }
     }
@@ -84,32 +70,18 @@ class ExploreAdapter(private val adapterListener: AdapterListener) :
 
     fun updateList(list: List<MoviesItem>) {
         GlobalScope.launch { distinctList(list) }
-        notifyItemInserted(moviesList.size-1)
+        notifyItemInserted(moviesList.size)
     }
 
     private suspend fun distinctList(list: List<MoviesItem>) {
         withContext(Dispatchers.IO) {
             moviesList.apply {
                 addAll(list)
-                val desList = distinctBy { it.imdbCode }
+                val desList = distinctBy { it.id }
                 clear()
                 addAll(desList)
             }
         }
     }
-
-    fun stopLoading() {
-        loading = false
-        notifyDataSetChanged()
-    }
-
-    fun loadMore(): Boolean {
-        return loading
-    }
-
-    fun keepLoading() {
-        loading = true
-    }
-
 
 }
