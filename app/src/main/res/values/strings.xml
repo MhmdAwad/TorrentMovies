@@ -6,8 +6,6 @@
     <string name="search">Search</string>
     <string name="movieCover">Movie Cover</string>
     <string name="transitionName">transition</string>
-    <string name="exploreTransition">explore Transition</string>
-    <string name="rankTransition">rank Transition</string>
     <string name="checkYoutube">Check if Youtube App is installed..</string>
     <string name="movieQuality">Select Quality</string>
     <string name="streamSeeds">Seeds: %d</string>
@@ -19,7 +17,6 @@
     <string name="screenshots">ScreenShots</string>
     <string name="trailer">Trailer</string>
     <string name="explore">Explore</string>
-    <string name="filter">Filter</string>
     <string name="rank">Rank</string>
     <string name="favorite">Favorite</string>
     <string name="ranking">Ranking</string>
