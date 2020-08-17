@@ -1,9 +1,10 @@
-package com.mhmdawad.torrentmovies.data.source
+package com.mhmdawad.torrentmovies.data.source.network
 
 import com.mhmdawad.torrentmovies.data.model.MovieDetails
 import com.mhmdawad.torrentmovies.data.model.MoviesResponse
 
-class NetworkResourceImpl(private val apiService: ApiService): INetworkResource {
+class NetworkSourceImpl(private val apiService: ApiService):
+    INetworkSource {
 
 
     override suspend fun searchMovie(search: String, page: Int): MoviesResponse = apiService.searchInMovie(search, page)

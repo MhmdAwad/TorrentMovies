@@ -17,14 +17,7 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
 val viewsModule = module {
-    // val animation =
-    //            AnimationUtils.loadAnimation(activity, R.anim.down_to_up)
-    //        val controller = GridLayoutAnimationController(animation)
-    //        controller.order = LayoutAnimationController.ORDER_NORMAL
-    //        controller.direction = GridLayoutAnimationController.DIRECTION_LEFT_TO_RIGHT or
-    //                GridLayoutAnimationController.DIRECTION_TOP_TO_BOTTOM
-    //        controller.columnDelay = 0.15f
-    //        controller.rowDelay = 0.15f
+
 
     single { AnimationUtils.loadAnimation(get(), R.anim.down_to_up) }
 

@@ -1,7 +1,7 @@
 package com.mhmdawad.torrentmovies.di
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.mhmdawad.torrentmovies.data.source.ApiService
+import com.mhmdawad.torrentmovies.data.source.network.ApiService
 import com.mhmdawad.torrentmovies.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

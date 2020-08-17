@@ -4,6 +4,7 @@ class Constants {
 
     companion object{
         const val BASE_URL = "https://yts.mx/api/v2/"
+        const val DATABASE_NAME = "MoviesDatabase"
 
         fun getMoviesGenre(): MutableList<Pair<String, String>> {
             val genrePair: MutableList<Pair<String, String>> = mutableListOf()

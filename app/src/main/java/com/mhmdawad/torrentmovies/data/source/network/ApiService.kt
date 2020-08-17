@@ -1,4 +1,4 @@
-package com.mhmdawad.torrentmovies.data.source
+package com.mhmdawad.torrentmovies.data.source.network
 
 import com.mhmdawad.torrentmovies.data.model.MovieDetails
 import com.mhmdawad.torrentmovies.data.model.MoviesResponse
