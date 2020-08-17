@@ -79,7 +79,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
             movieMpaRating.textOrGone(mpaRating)
             movieDescription.text = descriptionFull
             initYoutubePlayer(ytTrailerCode!!)
-            movieRatingTxt.text = rating.toString()
+            movieRatingTxt.formatText(R.string.mpaRating,rating.toString())
             initRecyclerViews(
                 cast,
                 listOf(

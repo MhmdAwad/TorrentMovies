@@ -27,8 +27,8 @@ class RankFragment : Fragment(R.layout.fragment_rank), AdapterListener {
         super.onViewCreated(view, savedInstanceState)
 
         clearNoLimitFlag()
-        initRecyclerView()
         observeObservers()
+        initRecyclerView()
         viewsListener()
     }
 

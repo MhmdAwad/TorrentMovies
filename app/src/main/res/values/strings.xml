@@ -24,5 +24,6 @@
     <string name="favorite">Favorite</string>
     <string name="ranking">Ranking</string>
     <string name="category">Category:</string>
+    <string name="mpaRating">%s/10</string>
 
 </resources>
