@@ -18,7 +18,6 @@ import com.github.se_bastiaan.torrentstream.listeners.TorrentListener
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.*
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.util.Log
 import com.masterwok.opensubtitlesandroid.models.OpenSubtitleItem
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.utils.*
