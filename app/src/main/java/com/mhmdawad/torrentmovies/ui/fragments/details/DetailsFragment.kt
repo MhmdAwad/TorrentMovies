@@ -60,7 +60,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
                 is Resource.Loaded -> {
                     detailsContainer.show()
                     detailsNoInternet.gone()
-                    showMovieDetails(it.data?.data?.movie!!)
+                    try {
+                        showMovieDetails(it.data!!)
+                    }catch (e: Exception){
+                        println("OOOOOOOOOOOO $e")
+                    }
                 }
                 is Resource.Error -> {
                     detailsContainer.gone()
@@ -81,7 +85,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
             initYoutubePlayer(ytTrailerCode!!)
             movieRatingTxt.formatText(R.string.mpaRating,rating.toString())
             initRecyclerViews(
-                cast,
+                cast!!,
                 listOf(
                     mediumScreenshotImage1!!,
                     mediumScreenshotImage2!!,

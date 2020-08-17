@@ -4,16 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mhmdawad.torrentmovies.data.model.MoviesResponse
+import com.mhmdawad.torrentmovies.data.model.MoviesItem
 import com.mhmdawad.torrentmovies.ui.MainRepository
 import com.mhmdawad.torrentmovies.utils.Resource
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: MainRepository) : ViewModel() {
 
-    private var moviesData = MutableLiveData<Resource<MoviesResponse>>()
-    fun getMovies() = moviesData as LiveData<Resource<MoviesResponse>>
+    private var moviesData = MutableLiveData<Resource<List<MoviesItem>>>()
+    fun getMovies() = moviesData as LiveData<Resource<List<MoviesItem>>>
     private lateinit var lastDataToLoad: Pair<Boolean, String>
     private var pageNumber = 1
     private var cancel = false
@@ -41,10 +42,9 @@ class HomeViewModel(private val repository: MainRepository) : ViewModel() {
         cancel = true
         moviesData.value = Resource.Loading()
         viewModelScope.launch(Dispatchers.IO) {
-            val result = kotlin.runCatching { repository.getMoviesCategory(category, page) }
+            val result = kotlin.runCatching { repository.getCacheCategory(category, page) }
             result.onSuccess {
-                checkPageNum(page, result)
-                cancel = false
+                    checkPageNum(page, result.getOrThrow())
             }
             result.onFailure {
                 moviesData.postValue(Resource.Error("Error with loading data", null))
@@ -52,11 +52,12 @@ class HomeViewModel(private val repository: MainRepository) : ViewModel() {
         }
     }
 
-    private fun checkPageNum(page: Int, result: Result<MoviesResponse>) {
+    private fun checkPageNum(page: Int, result: List<MoviesItem>) {
+        cancel = false
         if (page == 1)
-            moviesData.postValue(Resource.Loaded(result.getOrThrow()))
+            moviesData.postValue(Resource.Loaded(result))
         else
-            moviesData.postValue(Resource.NewData(result.getOrThrow()))
+            moviesData.postValue(Resource.NewData(result))
     }
 
     fun searchMovie(search: String, page: Int = 1) {
@@ -65,10 +66,10 @@ class HomeViewModel(private val repository: MainRepository) : ViewModel() {
         lastDataToLoad = Pair(false, search)
         moviesData.value = Resource.Loading()
         viewModelScope.launch(Dispatchers.IO) {
-            val result = kotlin.runCatching { repository.getMovieSearch(search, page) }
+            val result = kotlin.runCatching { repository.getNetworkSearch(search, page) }
             result.onSuccess {
-                checkPageNum(page, result)
-                cancel = false
+                checkPageNum(page, result.getOrThrow().data?.movies!!)
+
             }
             result.onFailure {
                 moviesData.postValue(Resource.Error("Error with loading data", null))

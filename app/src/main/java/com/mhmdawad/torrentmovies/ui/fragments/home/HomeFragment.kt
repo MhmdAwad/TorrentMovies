@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import android.view.animation.GridLayoutAnimationController
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -65,7 +64,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener, IOnBackP
                     refreshMoviesList.isRefreshing = false
                     homeInternetConnection.gone()
                     exploreRV.show()
-                    with(dataObserve.data?.data?.movies) {
+                    with(dataObserve.data) {
                         exploreRV.scrollToPosition(0)
                         exploreAdapter.addList(this!!)
                         animationRV()
@@ -73,7 +72,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener, IOnBackP
                 }
                 is Resource.NewData -> {
                     refreshMoviesList.isRefreshing = false
-                    with(dataObserve.data?.data?.movies) {
+                    with(dataObserve.data) {
                         exploreAdapter.updateList(this!!)
                     }
                 }
@@ -142,6 +141,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AdapterListener, IOnBackP
 
     override fun itemClicked(pos: Int) {
         viewModel.moviesCategoryList(categoryList[pos].second)
+        exploreAdapter.clearList()
     }
 
     override fun openMovie(movieID: Int, imageView: ImageView) {

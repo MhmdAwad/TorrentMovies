@@ -25,5 +25,6 @@
     <string name="ranking">Ranking</string>
     <string name="category">Category:</string>
     <string name="mpaRating">%s/10</string>
+    <string name="movieSubtitle">Select Subtitle</string>
 
 </resources>

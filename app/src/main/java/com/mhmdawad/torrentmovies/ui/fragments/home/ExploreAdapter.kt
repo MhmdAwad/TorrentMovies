@@ -68,5 +68,8 @@ class ExploreAdapter(private val adapterListener: AdapterListener) :
         GlobalScope.launch { moviesList.distinctList(list) }
         notifyItemInserted(moviesList.size)
     }
+    fun clearList(){
+        moviesList.clear()
+    }
 
 }

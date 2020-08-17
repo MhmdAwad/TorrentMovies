@@ -2,10 +2,14 @@ package com.mhmdawad.torrentmovies.data.source.cache
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.mhmdawad.torrentmovies.data.model.MoviesItem
+import androidx.room.TypeConverters
+import com.mhmdawad.torrentmovies.data.model.*
 
-@Database(entities = [MoviesItem::class], version = 1, exportSchema = false)
+@Database(entities = [MoviesItem::class, Movie::class], version = 1, exportSchema = false)
+@TypeConverters(StringTypeConverter::class, CastTypeConverter::class,
+    TorrentTypeConverter::class, TorrentsDetailsTypeConverter::class)
 abstract class MoviesDatabase: RoomDatabase() {
 
     abstract fun getMoviesDao(): MoviesDao
+
 }

@@ -10,13 +10,14 @@ import org.koin.dsl.module
 
 val repoModule = module {
 
-    single { MainRepository(get()) }
+    single { MainRepository(get(), get()) }
 
     factory<INetworkSource> {
         NetworkSourceImpl(
             get()
         )
     }
+
     factory<ICacheSource> {
         CacheSourceImpl(
             get()

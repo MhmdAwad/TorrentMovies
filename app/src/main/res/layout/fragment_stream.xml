@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorBlack">
+    android:background="@color/colorBlackDark">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/progressContainer"
@@ -69,10 +69,14 @@
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/moviePlayer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:controller_layout_id="@layout/exo_player_control_view"
-        app:use_controller="true"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:use_controller="true" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

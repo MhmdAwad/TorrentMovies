@@ -36,7 +36,7 @@ class RankViewModel(private val repository: MainRepository): ViewModel() {
         cancelLoading = true
         rankMovies.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.IO) {
-            val results = kotlin.runCatching { repository.getRankingMovies(page) }
+            val results = kotlin.runCatching { repository.getNetworkRanking(page) }
             results.onSuccess {
                 checkPageNum(page, results)
                 cancelLoading = false

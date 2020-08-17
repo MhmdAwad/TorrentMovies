@@ -1,189 +1,233 @@
 package com.mhmdawad.torrentmovies.data.model
 
+import androidx.room.*
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import com.google.gson.reflect.TypeToken
+import java.util.*
+
 
 data class MovieDetails(
 
 	@field:SerializedName("status_message")
-	val statusMessage: String? = null,
+	val statusMessage: String? ,
 
 	@field:SerializedName("data")
-	val data: DataDetails? = null,
+	val data: DataDetails? ,
 
 	@field:SerializedName("@meta")
-	val meta: MetaDetails? = null,
+	val meta: MetaDetails? ,
 
 	@field:SerializedName("status")
-	val status: String? = null
+	val status: String? 
 )
 
 data class TorrentsDetails(
 
 	@field:SerializedName("size_bytes")
-	val sizeBytes: Long? = null,
+	val sizeBytes: Long? ,
 
 	@field:SerializedName("size")
-	val size: String? = null,
+	val size: String? ,
 
 	@field:SerializedName("seeds")
-	val seeds: Int? = null,
+	val seeds: Int? ,
 
 	@field:SerializedName("date_uploaded")
-	val dateUploaded: String? = null,
+	val dateUploaded: String? ,
 
 	@field:SerializedName("peers")
-	val peers: Int? = null,
+	val peers: Int? ,
 
 	@field:SerializedName("date_uploaded_unix")
-	val dateUploadedUnix: Int? = null,
+	val dateUploadedUnix: Int? ,
 
 	@field:SerializedName("type")
-	val type: String? = null,
+	val type: String? ,
 
 	@field:SerializedName("url")
-	val url: String? = null,
+	val url: String? ,
 
 	@field:SerializedName("hash")
-	val hash: String? = null,
+	val hash: String? ,
 
 	@field:SerializedName("quality")
-	val quality: String? = null
+	val quality: String? 
 )
 
+@Entity
 data class Movie(
 
 	@field:SerializedName("small_cover_image")
-	val smallCoverImage: String? = null,
+	@ColumnInfo(name = "small_cover_image")
+	val smallCoverImage: String?,
 
 	@field:SerializedName("year")
-	val year: Int? = null,
+	@ColumnInfo(name = "year")
+	val year: Int?,
 
 	@field:SerializedName("description_full")
-	val descriptionFull: String? = null,
+	@ColumnInfo(name = "description_full")
+	val descriptionFull: String?,
 
 	@field:SerializedName("rating")
-	val rating: Double? = null,
+	@ColumnInfo(name = "rating")
+	val rating: Double?,
 
 	@field:SerializedName("large_cover_image")
-	val largeCoverImage: String? = null,
+	@ColumnInfo(name = "large_cover_image")
+	val largeCoverImage: String?,
 
 	@field:SerializedName("title_long")
-	val titleLong: String? = null,
+	@ColumnInfo(name = "title_long")
+	val titleLong: String?,
 
 	@field:SerializedName("language")
-	val language: String? = null,
+	@ColumnInfo(name = "language")
+	val language: String?,
 
 	@field:SerializedName("yt_trailer_code")
-	val ytTrailerCode: String? = null,
+	@ColumnInfo(name = "yt_trailer_code")
+	val ytTrailerCode: String?,
 
 	@field:SerializedName("title")
-	val title: String? = null,
+	@ColumnInfo(name = "title")
+	val title: String?,
 
 	@field:SerializedName("cast")
-	val cast: List<CastItem> = emptyList(),
+	@ColumnInfo(name = "cast")
+	var cast: List<CastItem>?,
 
 	@field:SerializedName("mpa_rating")
-	val mpaRating: String? = null,
+	@ColumnInfo(name = "mpa_rating")
+	val mpaRating: String?,
 
 	@field:SerializedName("genres")
-	val genres: List<String>? = null,
+	@ColumnInfo(name = "genres")
+	val genres: List<String>?,
 
 	@field:SerializedName("large_screenshot_image1")
-	val largeScreenshotImage1: String? = null,
+	@ColumnInfo(name = "large_screenshot_image1")
+	val largeScreenshotImage1: String?,
 
 	@field:SerializedName("title_english")
-	val titleEnglish: String? = null,
+	@ColumnInfo(name = "title_english")
+	val titleEnglish: String?,
 
 	@field:SerializedName("id")
-	val id: Int? = null,
+	@ColumnInfo(name = "id")
+	@PrimaryKey
+	val id: Int?,
 
 	@field:SerializedName("slug")
-	val slug: String? = null,
+	@ColumnInfo(name = "slug")
+	val slug: String?,
 
 	@field:SerializedName("large_screenshot_image3")
-	val largeScreenshotImage3: String? = null,
+	@ColumnInfo(name = "large_screenshot_image3")
+	val largeScreenshotImage3: String?,
 
 	@field:SerializedName("large_screenshot_image2")
-	val largeScreenshotImage2: String? = null,
+	@ColumnInfo(name = "large_screenshot_image2")
+	val largeScreenshotImage2: String?,
 
 	@field:SerializedName("like_count")
-	val likeCount: Int? = null,
+	@ColumnInfo(name = "like_count")
+	val likeCount: Int?,
 
 	@field:SerializedName("date_uploaded")
-	val dateUploaded: String? = null,
+	@ColumnInfo(name = "date_uploaded")
+	val dateUploaded: String?,
 
 	@field:SerializedName("description_intro")
-	val descriptionIntro: String? = null,
+	@ColumnInfo(name = "description_intro")
+	val descriptionIntro: String?,
 
 	@field:SerializedName("runtime")
-	val runtime: Int? = null,
+	@ColumnInfo(name = "runtime")
+	val runtime: Int?,
 
 	@field:SerializedName("url")
-	val url: String? = null,
+	@ColumnInfo(name = "url")
+	val url: String?,
 
 	@field:SerializedName("imdb_code")
-	val imdbCode: String? = null,
+	@ColumnInfo(name = "imdb_code")
+	val imdbCode: String?,
 
 	@field:SerializedName("download_count")
-	val downloadCount: Int? = null,
+	@ColumnInfo(name = "download_count")
+	val downloadCount: Int?,
 
 	@field:SerializedName("background_image")
-	val backgroundImage: String? = null,
+	@ColumnInfo(name = "background_image")
+	val backgroundImage: String?,
 
 	@field:SerializedName("medium_screenshot_image3")
-	val mediumScreenshotImage3: String? = null,
+	@ColumnInfo(name = "medium_screenshot_image3")
+	val mediumScreenshotImage3: String?,
 
 	@field:SerializedName("medium_screenshot_image2")
-	val mediumScreenshotImage2: String? = null,
+	@ColumnInfo(name = "medium_screenshot_image2")
+	val mediumScreenshotImage2: String?,
 
 	@field:SerializedName("torrents")
-	val torrents: List<TorrentsDetails>? = null,
+	@ColumnInfo(name = "torrents")
+	val torrents: List<TorrentsDetails>?,
 
 	@field:SerializedName("medium_screenshot_image1")
-	val mediumScreenshotImage1: String? = null,
+	@ColumnInfo(name = "medium_screenshot_image1")
+	val mediumScreenshotImage1: String?,
 
 	@field:SerializedName("date_uploaded_unix")
-	val dateUploadedUnix: Int? = null,
+	@ColumnInfo(name = "date_uploaded_unix")
+	val dateUploadedUnix: Int?,
 
 	@field:SerializedName("background_image_original")
-	val backgroundImageOriginal: String? = null,
+	@ColumnInfo(name = "background_image_original")
+	val backgroundImageOriginal: String?,
 
 	@field:SerializedName("medium_cover_image")
-	val mediumCoverImage: String? = null
+	@ColumnInfo(name = "medium_cover_image")
+	val mediumCoverImage: String? 
 )
 
 data class MetaDetails(
 
 	@field:SerializedName("server_time")
-	val serverTime: Int? = null,
+	val serverTime: Int? ,
 
 	@field:SerializedName("server_timezone")
-	val serverTimezone: String? = null,
+	val serverTimezone: String? ,
 
 	@field:SerializedName("api_version")
-	val apiVersion: Int? = null,
+	val apiVersion: Int? ,
 
 	@field:SerializedName("execution_time")
-	val executionTime: String? = null
+	val executionTime: String? 
 )
 
 data class DataDetails(
 
 	@field:SerializedName("movie")
-	val movie: Movie? = null
+	val movie: Movie? 
 )
 
 data class CastItem(
 
 	@field:SerializedName("character_name")
-	val characterName: String? = null,
+	@ColumnInfo(name = "character_name")
+	val characterName: String? ,
 
 	@field:SerializedName("url_small_image")
-	val urlSmallImage: String? = null,
+	@ColumnInfo(name = "url_small_image")
+	val urlSmallImage: String? ,
 
 	@field:SerializedName("name")
-	val name: String? = null,
+	@ColumnInfo(name = "name" )
+	val name: String? ,
 
 	@field:SerializedName("imdb_code")
-	val imdbCode: String? = null
+	@ColumnInfo(name = "imdb_code")
+	val imdbCode: String? 
 )

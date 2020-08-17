@@ -106,11 +106,14 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
                 , viewGroup, false
             )
         val builder = AlertDialog.Builder(view.context)
-        builder.setTitle(resources.getString(R.string.movieQuality))
+        builder.setTitle(resources.getString(R.string.movieSubtitle))
         builder.setView(dialogView)
         alertDialog = builder.create()
         val movieAdapter = MovieSubtitlesAdapter(listOfSubtitles, this)
-        dialogView.movieQualityRV.adapter = movieAdapter
+        dialogView.movieQualityRV.apply {
+            addDividers()
+            adapter = movieAdapter
+        }
         alertDialog.show()
     }
 
@@ -212,6 +215,6 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
     }
 
     override fun onStreamError(torrent: Torrent?, e: Exception?) {
-        Log.i("TAG", "onStreamError $e")
+        println("Error: $e")
     }
 }

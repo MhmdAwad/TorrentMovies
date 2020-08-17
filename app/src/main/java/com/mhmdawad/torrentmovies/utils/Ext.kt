@@ -8,6 +8,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MergingMediaSource
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -68,7 +70,7 @@ fun SimpleExoPlayer.startPlayer(mediaSource: MergingMediaSource) {
 fun SimpleExoPlayer.seekPlayer(
     pos: Long,
     mergeMediaSource: MergingMediaSource
-){
+) {
     startPlayer(mergeMediaSource)
     seekTo(pos)
 }
@@ -91,17 +93,19 @@ fun SimpleExoPlayer.stopPlayer() {
 
 fun ImageView.downloadImage(image: String?, addPlaceHolder: Boolean = false) {
     Picasso.get().load(image).apply {
-        if(addPlaceHolder)
+        if (addPlaceHolder)
             placeholder(R.drawable.ic_man).into(this@downloadImage)
         else
             into(this@downloadImage)
     }
 }
+
 fun Fragment.clearNoLimitFlag() {
     activity?.window?.clearFlags(
         WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
     )
 }
+
 fun TextView.textOrGone(s: String?) {
     if (s!!.isEmpty())
         invisible()
@@ -121,12 +125,7 @@ fun TextView.addCategories(genres: List<String>) {
     }
     text = category
 }
-//fun Fragment.getSubtitleFile() {
-//    val intent = Intent()
-//    intent.type = "application/srt"
-//    intent.action = Intent.ACTION_GET_CONTENT
-//    startActivityForResult(Intent.createChooser(intent, "Select Subtitle"), 101)
-// }
+
 
 fun Fragment.hideSystemUI(): Int {
     return (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -156,7 +155,22 @@ suspend fun MutableList<MoviesItem>.distinctList(list: List<MoviesItem>) {
         }
     }
 }
-fun MutableList<MoviesItem>.addList(list: List<MoviesItem>){
+
+fun List<MoviesItem>.changeCategory(category: String) {
+    for (i in this.indices)
+        this[i].category = category
+}
+
+fun RecyclerView.addDividers() {
+    addItemDecoration(
+        DividerItemDecoration(
+            context,
+            DividerItemDecoration.VERTICAL
+        )
+    )
+}
+
+fun MutableList<MoviesItem>.addList(list: List<MoviesItem>) {
     this.apply {
         clear()
         addAll(list)
