@@ -5,8 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mhmdawad.torrentmovies.data.model.Movie
-import com.mhmdawad.torrentmovies.data.model.MovieDetails
-import com.mhmdawad.torrentmovies.ui.MainRepository
+import com.mhmdawad.torrentmovies.data.source.MainRepository
 import com.mhmdawad.torrentmovies.utils.Resource
 import kotlinx.coroutines.launch
 

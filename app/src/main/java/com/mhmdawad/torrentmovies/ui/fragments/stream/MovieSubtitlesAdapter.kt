@@ -4,12 +4,9 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import com.masterwok.opensubtitlesandroid.models.OpenSubtitleItem
 import com.mhmdawad.torrentmovies.R
-import com.mhmdawad.torrentmovies.utils.AdapterListener
-import com.mhmdawad.torrentmovies.utils.SubtitleListener
+import com.mhmdawad.torrentmovies.utils.RVListeners.SubtitleListener
 import kotlinx.android.synthetic.main.movie_subtitle_dialog_rv.view.*
 
 class MovieSubtitlesAdapter(private val subtitleList: Array<OpenSubtitleItem>,

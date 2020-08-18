@@ -1,4 +1,4 @@
-package com.mhmdawad.torrentmovies.ui
+package com.mhmdawad.torrentmovies.data.source
 
 import com.mhmdawad.torrentmovies.data.model.Movie
 import com.mhmdawad.torrentmovies.data.model.MoviesItem
@@ -16,8 +16,8 @@ class MainRepository(
     private suspend fun getNetworkCategory(category: String, page: Int) {
         val result = networkSource.getMoviesCategory(category, page)
         result.data?.movies?.apply {
-            changeCategory(category)
-            saveMoviesCategory(this)
+            changeCategory(category)    
+            cacheSource.saveCacheMoviesList(this)
         }
     }
 
@@ -47,20 +47,14 @@ class MainRepository(
     }
 
     suspend fun getCacheDetails(id: Int): Movie {
-        var result = cacheSource.getSpecificMovie(id)
+        var result: Movie? = cacheSource.getSpecificMovie(id)
         if (result == null)
             result = getNetworkDetails(id)
-
         return result
     }
 
     suspend fun getNetworkRanking(page: Int): MoviesResponse {
         return networkSource.rankMovies(page)
-    }
-
-
-    private suspend fun saveMoviesCategory(list: List<MoviesItem>) {
-        cacheSource.saveCacheMoviesList(list)
     }
 
 }

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.data.model.MoviesItem
-import com.mhmdawad.torrentmovies.utils.AdapterListener
+import com.mhmdawad.torrentmovies.utils.RVListeners.AdapterListener
 import com.mhmdawad.torrentmovies.utils.addList
 import com.mhmdawad.torrentmovies.utils.distinctList
 import com.squareup.picasso.Picasso

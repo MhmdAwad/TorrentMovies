@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.data.model.MoviesItem
 import com.mhmdawad.torrentmovies.utils.*
+import com.mhmdawad.torrentmovies.utils.RVListeners.AdapterListener
 import kotlinx.android.synthetic.main.movies_rank_rv.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

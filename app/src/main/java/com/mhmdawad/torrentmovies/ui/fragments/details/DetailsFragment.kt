@@ -18,13 +18,15 @@ import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.data.model.CastItem
 import com.mhmdawad.torrentmovies.data.model.Movie
 import com.mhmdawad.torrentmovies.utils.*
+import com.mhmdawad.torrentmovies.utils.RVListeners.QualityListener
 import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.android.synthetic.main.movie_quality_dialog.view.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
 
 class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFullscreenListener,
-    IOnBackPressed, QualityListener {
+    IOnBackPressed,
+    QualityListener {
 
 
     private lateinit var ytPlayer: YouTubePlayer

@@ -10,10 +10,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.utils.*
+import com.mhmdawad.torrentmovies.utils.RVListeners.AdapterListener
 import kotlinx.android.synthetic.main.fragment_rank.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
-class RankFragment : Fragment(R.layout.fragment_rank), AdapterListener {
+class RankFragment : Fragment(R.layout.fragment_rank),
+    AdapterListener {
 
     private val rankAdapter by lazy { RankAdapter(this) }
     private lateinit var viewModel: RankViewModel

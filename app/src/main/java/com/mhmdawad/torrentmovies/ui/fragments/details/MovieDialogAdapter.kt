@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.data.model.TorrentsDetails
-import com.mhmdawad.torrentmovies.utils.QualityListener
+import com.mhmdawad.torrentmovies.utils.RVListeners.QualityListener
 import com.mhmdawad.torrentmovies.utils.formatText
 import kotlinx.android.synthetic.main.movie_quality_dialog_rv.view.*
 
 class MovieDialogAdapter(private val qualityList: List<TorrentsDetails>,
                          private val movieName: String,
-                         private val adapterListener: QualityListener)
+                         private val adapterListener: QualityListener
+)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

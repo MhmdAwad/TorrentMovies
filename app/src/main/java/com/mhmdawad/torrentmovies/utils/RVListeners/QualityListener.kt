@@ -1,4 +1,4 @@
-package com.mhmdawad.torrentmovies.utils
+package com.mhmdawad.torrentmovies.utils.RVListeners
 
 
 interface QualityListener {

@@ -5,9 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mhmdawad.torrentmovies.data.model.MoviesItem
-import com.mhmdawad.torrentmovies.ui.MainRepository
+import com.mhmdawad.torrentmovies.data.source.MainRepository
 import com.mhmdawad.torrentmovies.utils.Resource
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -17,7 +16,7 @@ class HomeViewModel(private val repository: MainRepository) : ViewModel() {
     fun getMovies() = moviesData as LiveData<Resource<List<MoviesItem>>>
     private lateinit var lastDataToLoad: Pair<Boolean, String>
     private var pageNumber = 1
-    private var cancel = false
+    private var cancelLoading = false
 
     init {
         moviesCategoryList()
@@ -25,12 +24,12 @@ class HomeViewModel(private val repository: MainRepository) : ViewModel() {
 
     fun refreshData() {
         pageNumber = 0
-        cancel = false
+        cancelLoading = false
         loadMoreData()
     }
 
     fun loadMoreData() {
-        if (!cancel)
+        if (!cancelLoading)
             if (lastDataToLoad.first)
                 moviesCategoryList(lastDataToLoad.second, ++pageNumber)
             else
@@ -39,7 +38,7 @@ class HomeViewModel(private val repository: MainRepository) : ViewModel() {
 
     fun moviesCategoryList(category: String = "", page: Int = 1) {
         lastDataToLoad = Pair(true, category)
-        cancel = true
+        cancelLoading = true
         moviesData.value = Resource.Loading()
         viewModelScope.launch(Dispatchers.IO) {
             val result = kotlin.runCatching { repository.getCacheCategory(category, page) }
@@ -53,15 +52,16 @@ class HomeViewModel(private val repository: MainRepository) : ViewModel() {
     }
 
     private fun checkPageNum(page: Int, result: List<MoviesItem>) {
-        cancel = false
+        cancelLoading = false
         if (page == 1)
             moviesData.postValue(Resource.Loaded(result))
         else
             moviesData.postValue(Resource.NewData(result))
     }
 
+
     fun searchMovie(search: String, page: Int = 1) {
-        cancel = true
+        cancelLoading = true
         pageNumber = page
         lastDataToLoad = Pair(false, search)
         moviesData.value = Resource.Loading()
