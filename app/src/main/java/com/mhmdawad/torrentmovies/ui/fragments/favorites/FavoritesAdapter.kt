@@ -9,12 +9,14 @@ import com.like.OnLikeListener
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.data.model.FavoriteMovie
 import com.mhmdawad.torrentmovies.utils.downloadImage
+import com.mhmdawad.torrentmovies.utils.rv_listeners.FavoriteListener
 import kotlinx.android.synthetic.main.favorite_layout_rv.view.*
 
-class FavoritesAdapter :
+class FavoritesAdapter(private val favoriteListener: FavoriteListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val favoritesList: MutableList<FavoriteMovie> = mutableListOf()
+    private var lastPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -43,33 +45,29 @@ class FavoritesAdapter :
         favoritesList.apply {
             clear()
             addAll(list)
-            notifyDataSetChanged()
+            notifyItemRangeChanged(lastPosition, favoritesList.size)
         }
     }
 
     inner class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: FavoriteMovie) = with(itemView) {
+            favMovie.apply {
+                setOnLikeListener(object : OnLikeListener {
+                    override fun liked(likeButton: LikeButton?) {
+                    }
 
+                    override fun unLiked(likeButton: LikeButton?) {
+                        lastPosition = adapterPosition
+                        favoriteListener.onDeleteFavMovie(item.id!!)
+                    }
+                })
+                isLiked = true
+            }
             imageView5.downloadImage(item.mediumCoverImage)
             favMovieName.text = item.titleEnglish
-            favMovie.setOnLikeListener(object : OnLikeListener {
-                override fun liked(likeButton: LikeButton?) {
-                }
-
-                override fun unLiked(likeButton: LikeButton?) {
-                    removeAt(adapterPosition)
-                    favMovie.isLiked = true
-                }
-
-            })
         }
     }
 
-    private fun removeAt(position: Int) {
-        favoritesList.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, favoritesList.size)
-    }
 
 }

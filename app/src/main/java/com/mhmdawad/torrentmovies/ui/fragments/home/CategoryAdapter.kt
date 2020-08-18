@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mhmdawad.torrentmovies.R
-import com.mhmdawad.torrentmovies.utils.RVListeners.AdapterListener
+import com.mhmdawad.torrentmovies.utils.rv_listeners.AdapterListener
 import kotlinx.android.synthetic.main.category_layout_rv.view.*
 
 class CategoryAdapter(private val categoryList: MutableList<Pair<String,String>>, private var adapterListener: AdapterListener) :

@@ -1,4 +1,4 @@
-package com.mhmdawad.torrentmovies.utils.RVListeners
+package com.mhmdawad.torrentmovies.utils.rv_listeners
 
 import android.widget.ImageView
 

@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.utils.*
-import com.mhmdawad.torrentmovies.utils.RVListeners.AdapterListener
+import com.mhmdawad.torrentmovies.utils.rv_listeners.AdapterListener
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.core.KoinComponent

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.masterwok.opensubtitlesandroid.models.OpenSubtitleItem
 import com.mhmdawad.torrentmovies.R
-import com.mhmdawad.torrentmovies.utils.RVListeners.SubtitleListener
+import com.mhmdawad.torrentmovies.utils.rv_listeners.SubtitleListener
 import kotlinx.android.synthetic.main.movie_subtitle_dialog_rv.view.*
 
 class MovieSubtitlesAdapter(private val subtitleList: Array<OpenSubtitleItem>,

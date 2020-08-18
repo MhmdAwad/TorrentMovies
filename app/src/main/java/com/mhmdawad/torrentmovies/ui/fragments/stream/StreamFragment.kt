@@ -21,7 +21,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.masterwok.opensubtitlesandroid.models.OpenSubtitleItem
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.utils.*
-import com.mhmdawad.torrentmovies.utils.RVListeners.SubtitleListener
+import com.mhmdawad.torrentmovies.utils.rv_listeners.SubtitleListener
 import kotlinx.android.synthetic.main.exo_player_control_view.*
 import kotlinx.android.synthetic.main.fragment_stream.*
 import kotlinx.android.synthetic.main.movie_quality_dialog.view.*

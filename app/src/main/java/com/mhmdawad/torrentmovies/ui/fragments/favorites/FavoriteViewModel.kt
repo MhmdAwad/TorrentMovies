@@ -29,5 +29,12 @@ class FavoriteViewModel(private val repository: MainRepository) : ViewModel() {
         }
     }
 
+    fun deleteSpecificMovie(id:Int){
+        viewModelScope.launch {
+            repository.deleteSpecificFavMovie(id)
+            getAllFavoriteMovies()
+        }
+    }
+
 
 }

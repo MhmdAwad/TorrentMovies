@@ -8,7 +8,7 @@ import android.view.animation.AnimationUtils
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.data.model.MoviesItem
 import com.mhmdawad.torrentmovies.utils.*
-import com.mhmdawad.torrentmovies.utils.RVListeners.AdapterListener
+import com.mhmdawad.torrentmovies.utils.rv_listeners.AdapterListener
 import kotlinx.android.synthetic.main.movies_rank_rv.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

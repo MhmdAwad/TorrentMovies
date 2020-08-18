@@ -16,7 +16,7 @@ interface FavoriteDao {
     @Query("SELECT * FROM FavoriteMovie")
     suspend fun getAllFavMovies(): List<FavoriteMovie>
 
-    @Query("DELETE FROM FavoriteMovie WHERE id = :id")
+    @Query("DELETE  FROM FavoriteMovie WHERE id = :id")
     suspend fun deleteFavMovie(id: Int)
 
     @Query("SELECT EXISTS(SELECT * FROM FavoriteMovie WHERE id = :id)")

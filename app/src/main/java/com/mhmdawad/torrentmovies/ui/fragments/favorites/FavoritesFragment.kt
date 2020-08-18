@@ -6,15 +6,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.utils.Resource
+import com.mhmdawad.torrentmovies.utils.rv_listeners.FavoriteListener
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.fragment_favorites.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
 
-class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
+class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListener {
 
-    private val favAdapter by lazy { FavoritesAdapter() }
+    private val favAdapter by lazy { FavoritesAdapter(this) }
     private lateinit var viewModel: FavoriteViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +52,10 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
                     .build()
             )
         }
+    }
+
+    override fun onDeleteFavMovie(id: Int) {
+        viewModel.deleteSpecificMovie(id)
     }
 
 }
