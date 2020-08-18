@@ -43,6 +43,7 @@ class FavoritesAdapter :
         favoritesList.apply {
             clear()
             addAll(list)
+            notifyDataSetChanged()
         }
     }
 
@@ -51,7 +52,7 @@ class FavoritesAdapter :
         fun bind(item: FavoriteMovie) = with(itemView) {
 
             imageView5.downloadImage(item.mediumCoverImage)
-            favMovieName.text = "Joker"
+            favMovieName.text = item.titleEnglish
             favMovie.setOnLikeListener(object : OnLikeListener {
                 override fun liked(likeButton: LikeButton?) {
                 }
