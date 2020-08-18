@@ -1,11 +1,13 @@
 package com.mhmdawad.torrentmovies.data.source
 
+import com.mhmdawad.torrentmovies.data.model.FavoriteMovie
 import com.mhmdawad.torrentmovies.data.model.Movie
 import com.mhmdawad.torrentmovies.data.model.MoviesItem
 import com.mhmdawad.torrentmovies.data.model.MoviesResponse
 import com.mhmdawad.torrentmovies.data.source.cache.ICacheSource
 import com.mhmdawad.torrentmovies.data.source.network.INetworkSource
 import com.mhmdawad.torrentmovies.utils.changeCategory
+import com.mhmdawad.torrentmovies.utils.convertToFavorite
 import java.lang.IllegalArgumentException
 
 class MainRepository(
@@ -56,5 +58,24 @@ class MainRepository(
     suspend fun getNetworkRanking(page: Int): MoviesResponse {
         return networkSource.rankMovies(page)
     }
+
+    suspend fun saveMovieToFav(movie: Movie){
+        cacheSource.saveFavMovie(movie.convertToFavorite())
+        checkFavMovieExist(movie.id!!)
+    }
+
+    suspend fun getAllFavMovie():List<FavoriteMovie>{
+        val result =  cacheSource.getAllFavMovies()
+        if (result.isEmpty())
+            throw IllegalArgumentException()
+        return result
+    }
+
+    suspend fun deleteSpecificFavMovie(id: Int){
+        cacheSource.deleteFavMovie(id)
+    }
+
+    suspend fun checkFavMovieExist(id: Int):Boolean =
+        cacheSource.checkFavMovieExist(id)
 
 }
