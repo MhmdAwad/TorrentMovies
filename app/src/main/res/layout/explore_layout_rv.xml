@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/movieCard"
         android:layout_width="match_parent"
@@ -22,9 +23,9 @@
             android:id="@+id/movieCover"
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            android:scaleType="fitXY"
             android:background="@color/colorBlueGray"
-            android:contentDescription="@string/movieCover" />
+            android:contentDescription="@string/movieCover"
+            android:scaleType="fitXY" />
 
     </androidx.cardview.widget.CardView>
 

@@ -11,12 +11,15 @@ import com.mhmdawad.torrentmovies.data.model.Movie
 interface FavoriteDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveFavoriteMovie(movie: Movie)
+    suspend fun saveFavoriteMovie(movie: FavoriteMovie)
 
     @Query("SELECT * FROM FavoriteMovie")
     suspend fun getAllFavMovies(): List<FavoriteMovie>
 
-    @Query("DELETE FROM FavoriteMovie")
-    suspend fun deleteAllFavMovies()
+    @Query("DELETE FROM FavoriteMovie WHERE id = :id")
+    suspend fun deleteFavMovie(id: Int)
+
+    @Query("SELECT EXISTS(SELECT * FROM FavoriteMovie WHERE id = :id)")
+    suspend fun checkMovieExist(id: Int): Boolean
 
 }

@@ -25,6 +25,7 @@ val repoModule = module {
 
     factory<ICacheSource> {
         CacheSourceImpl(
+            get(),
             get()
         )
     }
