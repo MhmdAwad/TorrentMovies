@@ -14,6 +14,8 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MergingMediaSource
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mhmdawad.torrentmovies.R
+import com.mhmdawad.torrentmovies.data.model.FavoriteMovie
+import com.mhmdawad.torrentmovies.data.model.Movie
 import com.mhmdawad.torrentmovies.data.model.MoviesItem
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
@@ -145,6 +147,7 @@ fun TextView.formatText(stringPath: Int, obj1: Any?, obj2: Any? = 0) {
     text = String.format(resources.getString(stringPath), obj1, obj2)
 }
 
+
 suspend fun MutableList<MoviesItem>.distinctList(list: List<MoviesItem>) {
     withContext(Dispatchers.IO) {
         this@distinctList.apply {
@@ -175,6 +178,44 @@ fun MutableList<MoviesItem>.addList(list: List<MoviesItem>) {
         clear()
         addAll(list)
     }
+}
+
+fun Movie.convertToFavorite(): FavoriteMovie {
+    return FavoriteMovie(
+        smallCoverImage,
+        year,
+        descriptionFull,
+        rating,
+        largeCoverImage,
+        titleLong,
+        language,
+        ytTrailerCode,
+        title,
+        cast,
+        mpaRating,
+        genres,
+        largeScreenshotImage1,
+        titleEnglish,
+        id,
+        slug,
+        largeScreenshotImage3,
+        largeScreenshotImage2,
+        likeCount,
+        dateUploaded,
+        descriptionIntro,
+        runtime,
+        url,
+        imdbCode,
+        downloadCount,
+        backgroundImage,
+        mediumScreenshotImage3,
+        mediumScreenshotImage2,
+        torrents,
+        mediumScreenshotImage1,
+        dateUploadedUnix,
+        backgroundImageOriginal,
+        mediumCoverImage
+    )
 }
 
 

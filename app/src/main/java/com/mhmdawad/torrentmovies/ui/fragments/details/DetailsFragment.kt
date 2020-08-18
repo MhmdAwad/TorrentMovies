@@ -14,6 +14,8 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerSupportFragmentX
+import com.like.LikeButton
+import com.like.OnLikeListener
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.data.model.CastItem
 import com.mhmdawad.torrentmovies.data.model.Movie
@@ -41,7 +43,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
         sharedElementEnterTransition =
             TransitionInflater.from(context).inflateTransition(android.R.transition.move)
         viewModel = getViewModel()
-        viewModel.getMovieDetails(args.movieId)
+        viewModel.observeMovieDetails(args.movieId)
+        viewModel.checkMovieFav(args.movieId)
     }
 
 
@@ -53,7 +56,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
 
 
     private fun observeObservers() {
-        viewModel.getMovieDetails().observe(viewLifecycleOwner, Observer {
+
+        viewModel.observeFavMovieExist().observe(viewLifecycleOwner, Observer {
+            favMovie.isLiked = it
+        })
+
+        viewModel.observeMovieDetails().observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Loading -> {
                     detailsNoInternet.gone()
@@ -62,11 +70,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
                 is Resource.Loaded -> {
                     detailsContainer.show()
                     detailsNoInternet.gone()
-                    try {
-                        showMovieDetails(it.data!!)
-                    }catch (e: Exception){
-                        println("OOOOOOOOOOOO $e")
-                    }
+                    showMovieDetails(it.data!!)
                 }
                 is Resource.Error -> {
                     detailsContainer.gone()
@@ -85,7 +89,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
             movieMpaRating.textOrGone(mpaRating)
             movieDescription.text = descriptionFull
             initYoutubePlayer(ytTrailerCode!!)
-            movieRatingTxt.formatText(R.string.mpaRating,rating.toString())
+            movieRatingTxt.formatText(R.string.mpaRating, rating.toString())
             initRecyclerViews(
                 cast!!,
                 listOf(
@@ -94,13 +98,28 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
                     mediumScreenshotImage3!!
                 )
             )
-            playMovieFAB.setOnClickListener {
-                showMovieQualityDialog(this, requireView())
-            }
-            detailsBackArrow.setOnClickListener{
-                findNavController().popBackStack()
-            }
+            viewsListener(this)
         }
+    }
+
+    private fun viewsListener(movie: Movie) = with(movie) {
+        playMovieFAB.setOnClickListener {
+            showMovieQualityDialog(this, requireView())
+        }
+
+        detailsBackArrow.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        favMovie.setOnLikeListener(object : OnLikeListener {
+            override fun liked(likeButton: LikeButton?) {
+                viewModel.addMovieToFavorite(this@with)
+            }
+
+            override fun unLiked(likeButton: LikeButton?) {
+                viewModel.deleteMovieFromFavorite(id!!)
+            }
+        })
     }
 
     private fun initRecyclerViews(castList: List<CastItem>, screenShotImages: List<String>) {
@@ -182,7 +201,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
         ytFullScreen = screen
     }
 
-    override fun onBackPressed():Boolean {
+    override fun onBackPressed(): Boolean {
         if (ytFullScreen)
             ytPlayer.setFullscreen(false)
         else
