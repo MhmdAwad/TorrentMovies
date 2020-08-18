@@ -13,4 +13,5 @@
     <color name="colorFillWhite">#1e2747</color>
     <color name="colorGray">#C0CADB</color>
     <color name="colorBlackDark">#000</color>
+    <color name="colorRed">#FF1100</color>
 </resources>

@@ -3,12 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorDark"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.favorites.FavoritesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.yarolegovich.discretescrollview.DiscreteScrollView
+        android:id="@+id/favoriteRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        app:dsv_orientation="horizontal"
+        android:clipToPadding="false"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"/>
 
 </FrameLayout>
