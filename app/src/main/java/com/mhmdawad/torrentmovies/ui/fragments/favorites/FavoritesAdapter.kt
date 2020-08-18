@@ -1,21 +1,20 @@
 package com.mhmdawad.torrentmovies.ui.fragments.favorites
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.like.LikeButton
 import com.like.OnLikeListener
 import com.mhmdawad.torrentmovies.R
+import com.mhmdawad.torrentmovies.data.model.FavoriteMovie
 import com.mhmdawad.torrentmovies.utils.downloadImage
 import kotlinx.android.synthetic.main.favorite_layout_rv.view.*
 
 class FavoritesAdapter :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val favoritesList: MutableList<String> = mutableListOf()
+    private val favoritesList: MutableList<FavoriteMovie> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -40,7 +39,7 @@ class FavoritesAdapter :
         return favoritesList.size
     }
 
-    fun addFavList(list: MutableList<String>) {
+    fun addFavList(list: List<FavoriteMovie>) {
         favoritesList.apply {
             clear()
             addAll(list)
@@ -49,9 +48,9 @@ class FavoritesAdapter :
 
     inner class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item: String) = with(itemView) {
+        fun bind(item: FavoriteMovie) = with(itemView) {
 
-            imageView5.downloadImage(item)
+            imageView5.downloadImage(item.mediumCoverImage)
             favMovieName.text = "Joker"
             favMovie.setOnLikeListener(object : OnLikeListener {
                 override fun liked(likeButton: LikeButton?) {
