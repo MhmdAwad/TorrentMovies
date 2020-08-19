@@ -33,7 +33,6 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        clearNoLimitFlag()
         initRecyclerView()
         observeObservers()
     }

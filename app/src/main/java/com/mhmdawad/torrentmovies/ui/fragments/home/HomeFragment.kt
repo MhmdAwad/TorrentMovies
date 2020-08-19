@@ -45,7 +45,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = getViewModel()
-        clearNoLimitFlag()
+
         initRecyclerViews()
         viewsListener(view.context)
         observeObservers()

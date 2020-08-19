@@ -102,6 +102,13 @@ fun ImageView.downloadImage(image: String?, addPlaceHolder: Boolean = false) {
     }
 }
 
+fun Fragment.addNoLimitFlag() {
+    activity?.window?.setFlags(
+        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+    )
+}
+
 fun Fragment.clearNoLimitFlag() {
     activity?.window?.clearFlags(
         WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
