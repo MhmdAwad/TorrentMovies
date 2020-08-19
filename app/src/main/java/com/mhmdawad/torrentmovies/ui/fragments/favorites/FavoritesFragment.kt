@@ -10,13 +10,15 @@ import androidx.navigation.fragment.findNavController
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.utils.*
 import com.mhmdawad.torrentmovies.utils.rv_listeners.FavoriteListener
+import com.yarolegovich.discretescrollview.DiscreteScrollView
+import com.yarolegovich.discretescrollview.transform.DiscreteScrollItemTransformer
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.fragment_favorites.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
 
-class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListener {
+class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListener, DiscreteScrollView.OnItemChangedListener<FavoritesAdapter.FavoriteViewHolder> {
 
     private val favAdapter by lazy { FavoritesAdapter(this) }
     private lateinit var viewModel: FavoriteViewModel
@@ -67,6 +69,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListene
                     .setPivotY(Pivot.Y.BOTTOM)
                     .build()
             )
+            addOnItemChangedListener(this@FavoritesFragment)
         }
     }
 
@@ -86,5 +89,12 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListene
     override fun onResume() {
         super.onResume()
         activity?.showBottomNav()
+    }
+
+    override fun onCurrentItemChanged(
+        viewHolder: FavoritesAdapter.FavoriteViewHolder?,
+        adapterPosition: Int
+    ) {
+        println("==========> $adapterPosition")
     }
 }
