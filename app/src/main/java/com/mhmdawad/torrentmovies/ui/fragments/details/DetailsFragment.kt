@@ -105,12 +105,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
     }
 
     private fun viewsListener(movie: Movie) = with(movie) {
+
         playMovieFAB.setOnClickListener {
             showMovieQualityDialog(this, requireView())
         }
 
         detailsBackArrow.setOnClickListener {
-            findNavController().popBackStack()
+            onBackPressed()
         }
 
         favMovie.setOnLikeListener(object : OnLikeListener {
