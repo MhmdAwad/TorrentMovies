@@ -8,8 +8,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/favMovieContainer"
-        android:layout_width="300dp"
-        android:layout_height="450dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         app:cardCornerRadius="15dp"
         app:cardElevation="2dp"
@@ -24,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY" />
+
     </androidx.cardview.widget.CardView>
 
     <com.like.LikeButton

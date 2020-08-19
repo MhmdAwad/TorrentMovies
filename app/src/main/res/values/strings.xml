@@ -24,5 +24,6 @@
     <string name="mpaRating">%s/10</string>
     <string name="movieSubtitle">Select Subtitle</string>
     <string name="no_movies_in_favorite">NO MOVIES IN FAVORITE</string>
+    <string name="year">Year:</string>
 
 </resources>

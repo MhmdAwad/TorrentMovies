@@ -59,7 +59,8 @@ class RankAdapter(private val adapterListener: AdapterListener) :
             rankMovieName.text = item.titleEnglish
             rankMovieRating.rating = (item.rating?.div(2))?.toFloat()!!
             rankMovieRatingTxt.text = item.rating.toString()
-            rankMovieCategory.addCategories(item.genres!!)
+            rankMovieCategory.text = item.genres?.get(0)
+            rankMovieYear.text = item.year.toString()
             rankMovieImg.apply {
                 downloadImage(item.mediumCoverImage)
                 transitionName = item.backgroundImageOriginal
