@@ -1,4 +1,4 @@
-package com.mhmdawad.torrentmovies.ui.fragments.home
+package com.mhmdawad.torrentmovies.ui.fragments.explore
 
 import android.app.Activity
 import android.content.Context
@@ -23,10 +23,10 @@ import org.koin.core.KoinComponent
 import org.koin.core.get
 
 
-class HomeFragment : Fragment(R.layout.fragment_home),
+class ExploreFragment : Fragment(R.layout.fragment_home),
     AdapterListener, IOnBackPressed, KoinComponent {
 
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: ExploreViewModel
     private val exploreAdapter by lazy {
         ExploreAdapter(
             this
@@ -82,10 +82,6 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     }
 
     private fun viewsListener(context: Context) {
-        textView.setOnClickListener {
-            NavHostFragment.findNavController(this)
-                .navigate(R.id.action_homeFragment_to_detailsFragment)
-        }
 
         searchMovie.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH && searchMovie.text.isNotEmpty()) {
@@ -149,7 +145,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         val extras =
             FragmentNavigatorExtras(imageView to resources.getString(R.string.transitionName))
         val action =
-            HomeFragmentDirections.actionHomeFragmentToDetailsFragment(
+            ExploreFragmentDirections.actionExploreFragmentToDetailsFragment(
                 movieID
             )
         findNavController().navigate(action, extras)

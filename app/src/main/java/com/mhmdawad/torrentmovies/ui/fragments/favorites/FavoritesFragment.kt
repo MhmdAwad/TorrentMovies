@@ -4,16 +4,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.mhmdawad.torrentmovies.R
-import com.mhmdawad.torrentmovies.ui.fragments.home.HomeFragmentDirections
 import com.mhmdawad.torrentmovies.utils.*
 import com.mhmdawad.torrentmovies.utils.rv_listeners.FavoriteListener
-import com.yarolegovich.discretescrollview.DSVOrientation
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.fragment_favorites.*

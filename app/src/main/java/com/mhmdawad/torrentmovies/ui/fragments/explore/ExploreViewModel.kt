@@ -1,4 +1,4 @@
-package com.mhmdawad.torrentmovies.ui.fragments.home
+package com.mhmdawad.torrentmovies.ui.fragments.explore
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +10,7 @@ import com.mhmdawad.torrentmovies.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val repository: MainRepository) : ViewModel() {
+class ExploreViewModel(private val repository: MainRepository) : ViewModel() {
 
     private var moviesData = MutableLiveData<Resource<List<MoviesItem>>>()
     fun getMovies() = moviesData as LiveData<Resource<List<MoviesItem>>>

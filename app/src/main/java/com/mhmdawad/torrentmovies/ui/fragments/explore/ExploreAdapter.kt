@@ -1,4 +1,4 @@
-package com.mhmdawad.torrentmovies.ui.fragments.home
+package com.mhmdawad.torrentmovies.ui.fragments.explore
 
 import android.view.LayoutInflater
 import android.view.View

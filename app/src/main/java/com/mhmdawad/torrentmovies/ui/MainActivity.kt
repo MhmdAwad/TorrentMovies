@@ -6,7 +6,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.ui.fragments.details.DetailsFragment
-import com.mhmdawad.torrentmovies.ui.fragments.home.HomeFragment
+import com.mhmdawad.torrentmovies.ui.fragments.explore.ExploreFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
         with(navHostFragment!!.childFragmentManager.fragments[0]) {
             when (this){
-                is HomeFragment  -> checkCloseApp(this.onBackPressed())
+                is ExploreFragment  -> checkCloseApp(this.onBackPressed())
                 is DetailsFragment -> checkCloseApp(this.onBackPressed())
                 else -> super.onBackPressed()
             }
