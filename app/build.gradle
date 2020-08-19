@@ -93,4 +93,8 @@ dependencies {
 
     // Like Button
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
+
+    // SDP
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+
 }

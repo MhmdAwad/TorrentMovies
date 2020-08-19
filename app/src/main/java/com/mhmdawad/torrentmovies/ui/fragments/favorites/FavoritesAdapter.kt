@@ -50,6 +50,8 @@ class FavoritesAdapter(private val favoriteListener: FavoriteListener) :
         }
     }
 
+    fun getMovieCover(pos: Int): String  = favoritesList[pos].mediumCoverImage!!
+
     inner class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: FavoriteMovie) = with(itemView) {

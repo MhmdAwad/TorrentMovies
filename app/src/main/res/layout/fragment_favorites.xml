@@ -22,18 +22,26 @@
 
     <com.yarolegovich.discretescrollview.DiscreteScrollView
         android:id="@+id/favoriteRV"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:clipToPadding="false"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
         app:dsv_orientation="horizontal"
+        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+    <ImageView
+        android:id="@+id/favMovieBackground"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:alpha=".2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <LinearLayout
         android:id="@+id/noMoviesContainer"
         android:layout_width="0dp"

@@ -42,17 +42,20 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListene
                     favMovieProgress.show()
                     noMoviesContainer.gone()
                     favoriteRV.gone()
+                    favMovieBackground.gone()
                 }
                 is Resource.Loaded -> {
                     favMovieProgress.gone()
                     noMoviesContainer.gone()
                     favoriteRV.show()
+                    favMovieBackground.show()
                     favAdapter.addFavList(it.data!!)
                 }
                 is Resource.Error ->{
                     favMovieProgress.gone()
                     noMoviesContainer.show()
                     favoriteRV.gone()
+                    favMovieBackground.gone()
                 }
             }
         })
@@ -95,6 +98,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListene
         viewHolder: FavoritesAdapter.FavoriteViewHolder?,
         adapterPosition: Int
     ) {
-        println("==========> $adapterPosition")
+        favMovieBackground.downloadImage(favAdapter.getMovieCover(adapterPosition))
+
     }
 }

@@ -1,71 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/favMovieContainer"
-        android:layout_width="145dp"
-        android:layout_height="245dp"
-        android:layout_centerVertical="true"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/backgrounds/scenic">
-
-        <ImageView
-            android:id="@+id/favMovieCover"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY" />
-    </androidx.cardview.widget.CardView>
-
-    <com.like.LikeButton
-        android:id="@+id/favMovie"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="8dp"
-        app:anim_scale_factor="1.5"
-        app:dots_primary_color="@color/colorAccent"
-        app:dots_secondary_color="@color/colorRed"
-        app:icon_size="35dp"
-        app:icon_type="heart"
-        app:layout_constraintBottom_toTopOf="@+id/favMovieContainer"
-        app:layout_constraintEnd_toEndOf="@+id/favMovieContainer"
-        app:layout_constraintTop_toTopOf="@+id/favMovieContainer"
-        app:like_drawable="@drawable/heart_on"
-        app:liked="true"
-        app:unlike_drawable="@drawable/heart_off" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/favMovieName"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:maxLines="3"
-        android:ellipsize="end"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/colorWhite"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline6"
-        app:layout_constraintVertical_bias="0.0" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/favMovieContainer"
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="@dimen/_240sdp"
+            app:cardCornerRadius="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline6">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".8" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/favMovieCover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/no_wifi" />
+        </androidx.cardview.widget.CardView>
+
+        <com.like.LikeButton
+            android:id="@+id/favMovie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="8dp"
+            app:anim_scale_factor="1.5"
+            app:dots_primary_color="@color/colorAccent"
+            app:dots_secondary_color="@color/colorRed"
+            app:icon_size="35dp"
+            app:icon_type="heart"
+            app:layout_constraintBottom_toTopOf="@+id/favMovieContainer"
+            app:layout_constraintEnd_toEndOf="@+id/favMovieContainer"
+            app:layout_constraintTop_toTopOf="@+id/favMovieContainer"
+            app:like_drawable="@drawable/heart_on"
+            app:liked="true"
+            app:unlike_drawable="@drawable/heart_off" />
+
+        <TextView
+            android:id="@+id/favMovieName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/favMovieContainer" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
