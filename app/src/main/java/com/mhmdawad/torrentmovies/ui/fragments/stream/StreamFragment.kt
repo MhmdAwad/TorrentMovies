@@ -70,8 +70,8 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
 
     private fun observeObservers() {
         viewModel.getSubtitlesData().observe(viewLifecycleOwner, Observer {
-            when(it){
-                is Resource.Loading-> {
+            when (it) {
+                is Resource.Loading -> {
                     progressContainer.show()
                 }
                 is Resource.Loaded -> {
@@ -87,8 +87,8 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
         })
 
         viewModel.getSubtitleStatus().observe(viewLifecycleOwner, Observer {
-            when(it){
-                is Resource.Loaded-> {
+            when (it) {
+                is Resource.Loaded -> {
                     alertDialog.dismiss()
                     addSubtitleToPlayer(it.data)
                 }
@@ -100,19 +100,19 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
 
     private fun showMovieSubtitlesDialog(listOfSubtitles: Array<OpenSubtitleItem>, view: View) {
         val viewGroup: ViewGroup? = view.findViewById(android.R.id.content)
-        val dialogView: View =
+        val dialogView =
             LayoutInflater.from(view.context).inflate(
                 R.layout.movie_quality_dialog
                 , viewGroup, false
             )
-        val builder = AlertDialog.Builder(view.context)
-        builder.setTitle(resources.getString(R.string.movieSubtitle))
-        builder.setView(dialogView)
-        alertDialog = builder.create()
-        val movieAdapter = MovieSubtitlesAdapter(listOfSubtitles, this)
+        AlertDialog.Builder(view.context).apply {
+            setTitle(resources.getString(R.string.movieSubtitle))
+            setView(dialogView)
+            alertDialog = create()
+        }
         dialogView.movieQualityRV.apply {
             addDividers()
-            adapter = movieAdapter
+            adapter = MovieSubtitlesAdapter(listOfSubtitles, this@StreamFragment)
         }
         alertDialog.show()
     }
@@ -165,7 +165,7 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
             streamSeeds.formatText(R.string.streamSeeds, status?.seeds)
             streamSpeed.formatText(R.string.streamDownloadSpeed, status?.downloadSpeed?.div(1024))
             streamProgressTxt.formatText(R.string.streamProgress, status?.progress, "%")
-        }catch (e: IllegalStateException){
+        } catch (e: IllegalStateException) {
             println("ERROR: $e")
         }
     }
@@ -200,8 +200,10 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
     }
 
     override fun onSubtitleClicked(subtitle: OpenSubtitleItem) {
-        viewModel.downloadSubtitle(subtitle,
-            Uri.fromFile(File("${activity?.getExternalFilesDir(null)?.absolutePath}/${subtitle.SubFileName}")))
+        viewModel.downloadSubtitle(
+            subtitle,
+            Uri.fromFile(File("${activity?.getExternalFilesDir(null)?.absolutePath}/${subtitle.SubFileName}"))
+        )
 
     }
 

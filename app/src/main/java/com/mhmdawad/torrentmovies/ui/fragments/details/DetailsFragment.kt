@@ -22,6 +22,7 @@ import com.mhmdawad.torrentmovies.data.model.Movie
 import com.mhmdawad.torrentmovies.utils.*
 import com.mhmdawad.torrentmovies.utils.rv_listeners.QualityListener
 import kotlinx.android.synthetic.main.fragment_details.*
+import kotlinx.android.synthetic.main.movie_quality_dialog.*
 import kotlinx.android.synthetic.main.movie_quality_dialog.view.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
@@ -167,22 +168,20 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
 
     private fun showMovieQualityDialog(movieData: Movie?, view: View) {
         val viewGroup: ViewGroup? = view.findViewById(android.R.id.content)
-        val dialogView: View =
+        val dialogView =
             LayoutInflater.from(view.context).inflate(
                 R.layout.movie_quality_dialog
                 , viewGroup, false
             )
-        val builder = AlertDialog.Builder(view.context)
-        builder.setTitle(resources.getString(R.string.movieQuality))
-        builder.setView(dialogView)
-        alertDialog = builder.create()
-        val movieAdapter = MovieDialogAdapter(
+        AlertDialog.Builder(view.context).apply {
+            setTitle(resources.getString(R.string.movieQuality))
+            setView(dialogView)
+            alertDialog = create()
+        }
+        dialogView.movieQualityRV.adapter = MovieDialogAdapter(
             movieData?.torrents!!,
             "${movieData.titleEnglish} ${movieData.year}", this
         )
-        dialogView.movieQualityRV.apply {
-            adapter = movieAdapter
-        }
         alertDialog.show()
     }
 
@@ -194,7 +193,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
     override fun onBackPressed(): Boolean {
         if (ytFullScreen)
             ytPlayer.setFullscreen(false)
-        else{
+        else {
             clearNoLimitFlag()
             findNavController().popBackStack()
         }
