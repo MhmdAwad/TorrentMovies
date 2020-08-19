@@ -40,9 +40,22 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListene
     private fun observeObservers() {
         viewModel.observeFavMovies().observe(viewLifecycleOwner, Observer {
             when(it){
-                is Resource.Loading ->{ println("LOADING")}
-                is Resource.Loaded -> favAdapter.addFavList(it.data!!)
-                is Resource.Error ->{ println("ERROR")}
+                is Resource.Loading ->{
+                    favMovieProgress.show()
+                    noMoviesContainer.gone()
+                    favoriteRV.gone()
+                }
+                is Resource.Loaded -> {
+                    favMovieProgress.gone()
+                    noMoviesContainer.gone()
+                    favoriteRV.show()
+                    favAdapter.addFavList(it.data!!)
+                }
+                is Resource.Error ->{
+                    favMovieProgress.gone()
+                    noMoviesContainer.show()
+                    favoriteRV.gone()
+                }
             }
         })
     }
