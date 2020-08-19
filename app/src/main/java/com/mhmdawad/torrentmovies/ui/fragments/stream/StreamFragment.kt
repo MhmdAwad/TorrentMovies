@@ -42,11 +42,16 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
     private lateinit var alertDialog: AlertDialog
     private lateinit var viewModel: StreamViewModel
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        viewModel = getViewModel()
+        clearNoLimitFlag()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = getViewModel()
-        changeStatusBar()
         initTorrentStream()
         observeObservers()
         viewsListener()
@@ -182,13 +187,6 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
         if (this::simplePlayer.isInitialized)
             simplePlayer.resumePlayer()
 
-    }
-
-    private fun changeStatusBar() {
-        activity?.window?.clearFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
     }
 
     override fun onStop() {
