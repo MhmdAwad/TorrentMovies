@@ -159,6 +159,7 @@ class ExploreFragment : Fragment(R.layout.fragment_home),
 
     override fun onBackPressed(): Boolean {
         if (exploreAdapter.currentPosition > 10) {
+            exploreAdapter.clearList()
             viewModel.refreshData()
             return false
         }
