@@ -67,7 +67,6 @@ class HomeFragment : Fragment(R.layout.fragment_home),
                     homeInternetConnection.gone()
                     exploreRV.show()
                     with(dataObserve.data) {
-                        exploreRV.smoothScrollToPosition(0)
                         exploreAdapter.addList(this!!)
                         animationRV()
                     }

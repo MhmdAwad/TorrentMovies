@@ -49,7 +49,6 @@ class RankFragment : Fragment(R.layout.fragment_rank),
                     rankSwipeRefresh.isRefreshing = false
                     rankNoInternet.gone()
                     rankRV.show()
-                    rankRV.smoothScrollToPosition(0)
                 }
                 is Resource.Error -> {
                     rankSwipeRefresh.isRefreshing = false
