@@ -52,7 +52,13 @@ class FavoritesAdapter(private val favoriteListener: FavoriteListener) :
     inner class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: FavoriteMovie) = with(itemView) {
+            favMovieCover.apply {
+                downloadImage(item.mediumCoverImage)
+                transitionName = item.backgroundImageOriginal
+            }
+            favMovieName.text = item.titleEnglish
             favMovie.apply {
+                isLiked = true
                 setOnLikeListener(object : OnLikeListener {
                     override fun liked(likeButton: LikeButton?) {
                     }
@@ -62,10 +68,8 @@ class FavoritesAdapter(private val favoriteListener: FavoriteListener) :
                         favoriteListener.onDeleteFavMovie(item.id!!)
                     }
                 })
-                isLiked = true
             }
-            imageView5.downloadImage(item.mediumCoverImage)
-            favMovieName.text = item.titleEnglish
+            setOnClickListener { favoriteListener.onMovieClicked(item.id!!, favMovieCover) }
         }
     }
 

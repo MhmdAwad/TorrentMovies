@@ -2,11 +2,18 @@ package com.mhmdawad.torrentmovies.ui.fragments.favorites
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import com.mhmdawad.torrentmovies.R
+import com.mhmdawad.torrentmovies.ui.fragments.home.HomeFragmentDirections
 import com.mhmdawad.torrentmovies.utils.Resource
+import com.mhmdawad.torrentmovies.utils.clearNoLimitFlag
+import com.mhmdawad.torrentmovies.utils.hideBottomNav
 import com.mhmdawad.torrentmovies.utils.rv_listeners.FavoriteListener
+import com.mhmdawad.torrentmovies.utils.showBottomNav
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.fragment_favorites.*
@@ -26,6 +33,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        clearNoLimitFlag()
         initRecyclerView()
         observeObservers()
     }
@@ -58,4 +66,17 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListene
         viewModel.deleteSpecificMovie(id)
     }
 
+    override fun onMovieClicked(id: Int, imageView: ImageView) {
+        val extras =
+            FragmentNavigatorExtras(imageView to resources.getString(R.string.transitionName))
+        val action =
+            FavoritesFragmentDirections.actionFavoritesFragmentToDetailsFragment(id)
+        findNavController().navigate(action, extras)
+        activity?.hideBottomNav()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.showBottomNav()
+    }
 }
