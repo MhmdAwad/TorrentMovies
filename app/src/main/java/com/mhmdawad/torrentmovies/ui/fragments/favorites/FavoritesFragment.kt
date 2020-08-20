@@ -18,7 +18,8 @@ import kotlinx.android.synthetic.main.fragment_favorites.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
 
-class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListener, DiscreteScrollView.OnItemChangedListener<FavoritesAdapter.FavoriteViewHolder> {
+class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListener,
+    DiscreteScrollView.OnItemChangedListener<FavoritesAdapter.FavoriteViewHolder> {
 
     private val favAdapter by lazy { FavoritesAdapter(this) }
     private lateinit var viewModel: FavoriteViewModel
@@ -37,8 +38,8 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListene
 
     private fun observeObservers() {
         viewModel.observeFavMovies().observe(viewLifecycleOwner, Observer {
-            when(it){
-                is Resource.Loading ->{
+            when (it) {
+                is Resource.Loading -> {
                     favMovieProgress.show()
                     noMoviesContainer.gone()
                     favoriteRV.gone()
@@ -51,7 +52,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListene
                     favMovieBackground.show()
                     favAdapter.addFavList(it.data!!)
                 }
-                is Resource.Error ->{
+                is Resource.Error -> {
                     favMovieProgress.gone()
                     noMoviesContainer.show()
                     favoriteRV.gone()
@@ -99,6 +100,5 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListene
         adapterPosition: Int
     ) {
         favMovieBackground.downloadImage(favAdapter.getMovieCover(adapterPosition))
-
     }
 }

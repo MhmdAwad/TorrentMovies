@@ -8,7 +8,7 @@
         android:id="@+id/exploreFragment"
         android:name="com.mhmdawad.torrentmovies.ui.fragments.explore.ExploreFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_explore" >
         <action
             android:id="@+id/action_exploreFragment_to_detailsFragment"
             app:destination="@id/detailsFragment"

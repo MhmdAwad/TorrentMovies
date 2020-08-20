@@ -10,9 +10,9 @@
         android:id="@+id/movieCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="8dp"
         android:elevation="10dp"
         app:cardCornerRadius="4dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,8 +22,7 @@
         <ImageView
             android:id="@+id/movieCover"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="180dp"
+            android:layout_height="@dimen/_170sdp"
             android:background="@color/colorBlueGray"
             android:contentDescription="@string/movieCover"
             android:scaleType="fitXY" />

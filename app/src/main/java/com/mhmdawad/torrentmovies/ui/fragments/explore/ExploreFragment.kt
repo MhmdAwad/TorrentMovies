@@ -16,13 +16,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.utils.*
 import com.mhmdawad.torrentmovies.utils.rv_listeners.AdapterListener
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_explore.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.core.KoinComponent
 import org.koin.core.get
 
 
-class ExploreFragment : Fragment(R.layout.fragment_home),
+class ExploreFragment : Fragment(R.layout.fragment_explore),
     AdapterListener, IOnBackPressed, KoinComponent {
 
     private lateinit var viewModel: ExploreViewModel
