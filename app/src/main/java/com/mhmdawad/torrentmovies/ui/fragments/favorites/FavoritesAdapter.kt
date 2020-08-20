@@ -17,7 +17,8 @@ class FavoritesAdapter(private val favoriteListener: FavoriteListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val favoritesList: MutableList<FavoriteMovie> = mutableListOf()
-    private var lastPosition = 0
+    var lastPosition = 0
+    private set
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -50,7 +51,9 @@ class FavoritesAdapter(private val favoriteListener: FavoriteListener) :
         }
     }
 
-    fun getMovieCover(pos: Int): String  = favoritesList[pos].mediumCoverImage!!
+    fun getMovieCover(pos: Int): String {
+        return favoritesList[pos].mediumCoverImage!!
+    }
 
     inner class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -75,6 +78,6 @@ class FavoritesAdapter(private val favoriteListener: FavoriteListener) :
             setOnClickListener { favoriteListener.onMovieClicked(item.id!!, favMovieCover) }
         }
     }
-
-
 }
+
+

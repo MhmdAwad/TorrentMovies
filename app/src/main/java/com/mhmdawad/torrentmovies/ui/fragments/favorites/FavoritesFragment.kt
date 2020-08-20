@@ -50,7 +50,10 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListene
                     noMoviesContainer.gone()
                     favoriteRV.show()
                     favMovieBackground.show()
-                    favAdapter.addFavList(it.data!!)
+                    favAdapter.apply {
+                        addFavList(it.data!!)
+                        favMovieBackground.downloadImage(getMovieCover(lastPosition))
+                    }
                 }
                 is Resource.Error -> {
                     favMovieProgress.gone()
@@ -94,6 +97,8 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListene
         super.onResume()
         activity?.showBottomNav()
     }
+
+
 
     override fun onCurrentItemChanged(
         viewHolder: FavoritesAdapter.FavoriteViewHolder?,
