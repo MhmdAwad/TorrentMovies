@@ -34,8 +34,8 @@
 
         <ImageView
             android:id="@+id/castImage"
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
             android:scaleType="fitXY"
             android:layout_gravity="center"
             android:src="@drawable/ic_man" />

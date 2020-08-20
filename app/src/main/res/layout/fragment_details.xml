@@ -27,7 +27,6 @@
                 android:id="@+id/favMovie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:animateLayoutChanges="true"
                 android:elevation="10dp"
                 app:anim_scale_factor="1.8"
@@ -47,18 +46,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
                 android:background="@null"
                 android:elevation="8dp"
                 android:padding="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/detailsMovieCover"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.25"
                 app:srcCompat="@drawable/ic_arrow_back" />
 
             <ImageView
                 android:id="@+id/detailsMovieCover"
                 android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_120sdp"
+                android:layout_height="@dimen/_130sdp"
                 android:layout_marginStart="8dp"
                 android:background="@color/colorBlueGray"
                 android:elevation="8dp"
@@ -143,7 +143,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-                app:srcCompat="@android:drawable/ic_media_play" />
+                app:srcCompat="@drawable/exo_icon_play" />
 
             <TextView
                 android:id="@+id/movieCategory"
@@ -285,7 +285,6 @@
                     android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:text="@string/trailer"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/colorWhite"
@@ -304,7 +303,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView3" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout> <!-- youtube -->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>

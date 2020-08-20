@@ -52,7 +52,11 @@ class FavoritesAdapter(private val favoriteListener: FavoriteListener) :
     }
 
     fun getMovieCover(pos: Int): String {
-        return favoritesList[pos].mediumCoverImage!!
+        return try {
+            favoritesList[pos].mediumCoverImage!!
+        }catch (e: IndexOutOfBoundsException){
+            favoritesList[0].mediumCoverImage!!
+        }
     }
 
     inner class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

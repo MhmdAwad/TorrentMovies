@@ -167,8 +167,10 @@ suspend fun MutableList<MoviesItem>.distinctList(list: List<MoviesItem>) {
 }
 
 fun List<MoviesItem>.changeCategory(category: String) {
-    for (i in this.indices)
-        this[i].category = category
+    for (i in this) {
+        i.category = category
+        i.timeSaved = System.currentTimeMillis()
+    }
 }
 
 fun RecyclerView.addDividers() {

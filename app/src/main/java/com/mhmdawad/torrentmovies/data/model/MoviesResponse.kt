@@ -47,7 +47,7 @@ data class MoviesItem(
 	var category: String? = "",
 
 	@ColumnInfo(name = "timeSaved")
-	val timeSaved: Long = System.currentTimeMillis(),
+	var timeSaved: Long ,
 
 	@field:SerializedName("year")
 	@ColumnInfo(name = "year")
