@@ -27,17 +27,18 @@
                 android:id="@+id/favMovie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:animateLayoutChanges="true"
                 android:elevation="10dp"
+                app:anim_scale_factor="1.8"
                 app:dots_primary_color="@color/colorAccent"
                 app:dots_secondary_color="@color/colorRed"
-                app:anim_scale_factor="1.8"
                 app:icon_size="30dp"
-                android:animateLayoutChanges="true"
-                app:layout_goneMarginEnd="0dp"
                 app:icon_type="heart"
-                app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/linearLayout"
+                app:layout_constraintBottom_toTopOf="@+id/detailsMovieCover"
+                app:layout_constraintEnd_toEndOf="@+id/detailsMovieCover"
+                app:layout_constraintTop_toTopOf="@+id/detailsMovieCover"
+                app:layout_goneMarginEnd="0dp"
                 app:like_drawable="@drawable/heart_on"
                 app:unlike_drawable="@drawable/heart_off" />
 
@@ -45,8 +46,8 @@
                 android:id="@+id/detailsBackArrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:background="@null"
                 android:elevation="8dp"
                 android:padding="8dp"
@@ -56,8 +57,8 @@
 
             <ImageView
                 android:id="@+id/detailsMovieCover"
-                android:layout_width="130dp"
-                android:layout_height="160dp"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_120sdp"
                 android:layout_marginStart="8dp"
                 android:background="@color/colorBlueGray"
                 android:elevation="8dp"
@@ -109,16 +110,14 @@
 
             <LinearLayout
                 android:id="@+id/linearLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="@+id/movieMpaRating"
-                app:layout_constraintEnd_toStartOf="@+id/favMovie"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/movieMpaRating"
-                app:layout_constraintTop_toTopOf="@+id/movieMpaRating">
+                app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
+                app:layout_constraintEnd_toStartOf="@+id/playMovieFAB"
+                app:layout_constraintStart_toEndOf="@+id/detailsMovieCover">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -135,6 +134,7 @@
                     android:textColor="@color/colorWhite" />
 
             </LinearLayout>
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/playMovieFAB"
                 android:layout_width="wrap_content"
@@ -163,7 +163,7 @@
                 android:layout_height="24dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/colored_circle"
+                android:background="@drawable/mpa_shape"
                 android:gravity="center"
                 android:textColor="@color/colorWhite"
                 android:visibility="invisible"
@@ -245,19 +245,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieDescription" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.yarolegovich.discretescrollview.DiscreteScrollView
                 android:id="@+id/screenShotsRV"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_160sdp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:dsv_orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/youtubeLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -269,23 +268,43 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieMpaRating">
 
+                <ImageButton
+                    android:id="@+id/initYoutube"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:padding="8dp"
+                    android:elevation="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/trailerView"
+                    app:layout_constraintEnd_toEndOf="@+id/trailerView"
+                    app:layout_constraintStart_toStartOf="@+id/trailerView"
+                    app:layout_constraintTop_toTopOf="@+id/trailerView"
+                    app:srcCompat="@android:drawable/ic_media_play" />
+
                 <TextView
+                    android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
                     android:text="@string/trailer"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textColor="@color/colorWhite" />
+                    android:textColor="@color/colorWhite"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/trailerView"
                     android:name="com.google.android.youtube.player.YouTubePlayerSupportFragmentX"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
-            </LinearLayout>
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>

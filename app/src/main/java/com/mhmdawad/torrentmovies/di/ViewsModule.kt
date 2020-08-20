@@ -13,6 +13,8 @@ import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.exoplayer2.util.Util
 import com.masterwok.opensubtitlesandroid.services.OpenSubtitlesService
 import com.mhmdawad.torrentmovies.R
+import com.yarolegovich.discretescrollview.transform.Pivot
+import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
@@ -56,6 +58,15 @@ val viewsModule = module {
 
     single {
         OpenSubtitlesService()
+    }
+
+    single {
+        ScaleTransformer.Builder()
+            .setMaxScale(1.05f)
+            .setMinScale(0.8f)
+            .setPivotX(Pivot.X.CENTER)
+            .setPivotY(Pivot.Y.BOTTOM)
+            .build()
     }
 
 

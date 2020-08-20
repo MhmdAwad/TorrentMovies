@@ -16,9 +16,11 @@ import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.fragment_favorites.*
 import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.core.KoinComponent
+import org.koin.core.get
 
 
-class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListener,
+class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListener, KoinComponent,
     DiscreteScrollView.OnItemChangedListener<FavoritesAdapter.FavoriteViewHolder> {
 
     private val favAdapter by lazy { FavoritesAdapter(this) }
@@ -68,14 +70,8 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), FavoriteListene
     private fun initRecyclerView() {
         favoriteRV.apply {
             adapter = favAdapter
-            setItemTransformer(
-                ScaleTransformer.Builder()
-                    .setMaxScale(1.05f)
-                    .setMinScale(0.8f)
-                    .setPivotX(Pivot.X.CENTER)
-                    .setPivotY(Pivot.Y.BOTTOM)
-                    .build()
-            )
+            val transformer: ScaleTransformer = get()
+            setItemTransformer(transformer)
             addOnItemChangedListener(this@FavoritesFragment)
         }
     }

@@ -21,13 +21,16 @@ import com.mhmdawad.torrentmovies.data.model.CastItem
 import com.mhmdawad.torrentmovies.data.model.Movie
 import com.mhmdawad.torrentmovies.utils.*
 import com.mhmdawad.torrentmovies.utils.rv_listeners.QualityListener
+import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.android.synthetic.main.movie_quality_dialog.*
 import kotlinx.android.synthetic.main.movie_quality_dialog.view.*
 import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.core.KoinComponent
+import org.koin.core.get
 
 
-class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFullscreenListener,
+class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFullscreenListener, KoinComponent,
     IOnBackPressed,
     QualityListener {
 
@@ -91,8 +94,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
             movieCategory.addCategories(genres!!)
             movieMpaRating.textOrGone(mpaRating)
             movieDescription.text = descriptionFull
-            initYoutubePlayer(ytTrailerCode!!)
             movieRatingTxt.formatText(R.string.mpaRating, rating.toString())
+            initYoutube.apply {
+                setOnClickListener {
+                    initYoutubePlayer(ytTrailerCode!!)
+                    gone()
+                }
+            }
             initRecyclerViews(
                 cast!!,
                 listOf(
@@ -131,7 +139,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
             castLayout.gone()
         else
             castRV.adapter = MovieCastAdapter(castList)
-        screenShotsRV.adapter = ScreenShotsAdapter(screenShotImages)
+        screenShotsRV.apply {
+            adapter = ScreenShotsAdapter(screenShotImages)
+            val transformer: ScaleTransformer = get()
+            setItemTransformer(transformer)
+        }
     }
 
     private fun initYoutubePlayer(ytTrailerCode: String) {

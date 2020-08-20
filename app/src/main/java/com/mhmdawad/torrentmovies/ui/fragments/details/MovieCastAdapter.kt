@@ -43,6 +43,7 @@ class MovieCastAdapter(private val castList: List<CastItem>) :
 
         fun bind(item: CastItem) = with(itemView) {
             castImage.downloadImage(item.urlSmallImage, true)
+            movieCastCard.setBackgroundResource(R.drawable.circle_shape)
             castName.text = item.name
         }
     }
