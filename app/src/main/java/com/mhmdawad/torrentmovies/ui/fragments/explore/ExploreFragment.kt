@@ -62,8 +62,6 @@ class ExploreFragment : Fragment(R.layout.fragment_explore),
                 }
                 is Resource.Loading -> refreshMoviesList.isRefreshing = true
                 is Resource.Loaded -> {
-                    for(i in dataObserve.data!!)
-                        println("===========> ${i.timeSaved}")
                     refreshMoviesList.isRefreshing = false
                     homeInternetConnection.gone()
                     exploreRV.show()

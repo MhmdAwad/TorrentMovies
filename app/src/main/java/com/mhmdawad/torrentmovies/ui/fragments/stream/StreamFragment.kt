@@ -52,6 +52,7 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         initTorrentStream()
         observeObservers()
         viewsListener()
@@ -127,6 +128,7 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
         torrentStream = get()
         torrentStream.startStream(args.movieUrl)
         torrentStream.addListener(this)
+
     }
 
     private fun initPlayer(path: String) {
@@ -177,22 +179,24 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
 
     override fun onPause() {
         super.onPause()
-        if (this::simplePlayer.isInitialized)
-            simplePlayer.stopPlayer()
+        torrentStream.currentTorrent.pause()
+        if (this::simplePlayer.isInitialized) simplePlayer.stopPlayer()
 
     }
 
     override fun onResume() {
         super.onResume()
-        if (this::simplePlayer.isInitialized)
-            simplePlayer.resumePlayer()
-
+        if(torrentStream.currentTorrent != null)
+            torrentStream.currentTorrent.resume()
+        if (this::simplePlayer.isInitialized) simplePlayer.resumePlayer()
     }
 
-    override fun onStop() {
-        super.onStop()
+
+    override fun onDestroy() {
+        super.onDestroy()
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
         torrentStream.removeListener(this)
+        torrentStream.stopStream()
         if (this::simplePlayer.isInitialized)
             simplePlayer.release()
     }
