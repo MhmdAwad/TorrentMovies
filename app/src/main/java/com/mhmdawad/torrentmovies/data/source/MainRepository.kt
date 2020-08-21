@@ -17,8 +17,10 @@ class MainRepository(
     private suspend fun getNetworkCategory(category: String, page: Int) {
         val result = networkSource.getMoviesCategory(category, page)
         result.data?.movies?.apply {
-            changeCategory(category)
-            cacheSource.saveCacheMoviesList(this)
+            if (this.isNotEmpty()) {
+                changeCategory(category)
+                cacheSource.saveCacheMoviesList(this)
+            }
         }
     }
 
@@ -57,7 +59,6 @@ class MainRepository(
 
     private suspend fun getCacheRanking(page: Int): List<MoviesItem> =
         cacheSource.getRankMovies(20, page.times(10))
-
 
 
     suspend fun getNetworkRanking(page: Int): List<MoviesItem> {

@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/movieQualityRV"
+        android:id="@+id/movieDialogRV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"

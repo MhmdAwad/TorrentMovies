@@ -68,12 +68,16 @@ class ExploreFragment : Fragment(R.layout.fragment_explore),
                     with(dataObserve.data) {
                         exploreAdapter.addList(this!!)
                         animationRV()
+                        for(i in this)
+                            println("Loaded======> ${i.timeSaved}")
                     }
                 }
                 is Resource.NewData -> {
                     refreshMoviesList.isRefreshing = false
                     with(dataObserve.data) {
                         exploreAdapter.updateList(this!!)
+                        for(i in this)
+                            println("NewData======> ${i.timeSaved}")
                     }
                 }
             }

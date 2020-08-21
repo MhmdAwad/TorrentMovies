@@ -24,5 +24,6 @@
     <string name="movieSubtitle">Select Subtitle</string>
     <string name="no_movies_in_favorite">NO MOVIES IN FAVORITE</string>
     <string name="year">Year:</string>
-
+    <string name="noSubtitle">No subtitles found to this movie..</string>
+    <string name="subtitleError">Error with adding subtitle, Please try again..</string>
 </resources>

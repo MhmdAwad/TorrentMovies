@@ -109,7 +109,6 @@
 
 
             <LinearLayout
-                android:id="@+id/linearLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -167,6 +166,7 @@
                 android:gravity="center"
                 android:textColor="@color/colorWhite"
                 android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/detailsMovieCover"
                 app:layout_constraintStart_toEndOf="@+id/detailsMovieCover"
                 app:layout_constraintTop_toBottomOf="@+id/movieCategory" />
 

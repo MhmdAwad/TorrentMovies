@@ -6,7 +6,6 @@ import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -23,8 +22,7 @@ import com.mhmdawad.torrentmovies.utils.*
 import com.mhmdawad.torrentmovies.utils.rv_listeners.QualityListener
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.fragment_details.*
-import kotlinx.android.synthetic.main.movie_quality_dialog.*
-import kotlinx.android.synthetic.main.movie_quality_dialog.view.*
+import kotlinx.android.synthetic.main.movie_dialog.view.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.core.KoinComponent
 import org.koin.core.get
@@ -182,7 +180,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
         val viewGroup: ViewGroup? = view.findViewById(android.R.id.content)
         val dialogView =
             LayoutInflater.from(view.context).inflate(
-                R.layout.movie_quality_dialog
+                R.layout.movie_dialog
                 , viewGroup, false
             )
         AlertDialog.Builder(view.context).apply {
@@ -190,7 +188,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
             setView(dialogView)
             alertDialog = create()
         }
-        dialogView.movieQualityRV.adapter = MovieDialogAdapter(
+        dialogView.movieDialogRV.adapter = MovieDialogAdapter(
             movieData?.torrents!!,
             "${movieData.titleEnglish} ${movieData.year}", this
         )
