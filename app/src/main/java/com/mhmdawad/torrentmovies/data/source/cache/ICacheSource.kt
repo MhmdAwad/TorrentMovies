@@ -16,4 +16,6 @@ interface ICacheSource {
     suspend fun getAllFavMovies(): List<FavoriteMovie>
     suspend fun deleteFavMovie(id: Int)
     suspend fun checkFavMovieExist(id: Int): Boolean
+
+    suspend fun getRankMovies(limit: Int, page: Int):List<MoviesItem>
 }

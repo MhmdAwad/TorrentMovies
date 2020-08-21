@@ -44,12 +44,13 @@ class RankFragment : Fragment(R.layout.fragment_rank),
             when (it) {
                 is Resource.Loading -> rankSwipeRefresh.isRefreshing = true
                 is Resource.Loaded -> {
-                    rankAdapter.addList(it.data?.data?.movies!!)
+                    rankAdapter.addList(it.data!!)
                     rankSwipeRefresh.isRefreshing = false
                     rankNoInternet.gone()
                     rankRV.show()
                 }
                 is Resource.Error -> {
+                    println("========== ${it.msg}")
                     rankSwipeRefresh.isRefreshing = false
                     if(rankAdapter.itemCount < 10){
                         rankNoInternet.show()
@@ -58,7 +59,7 @@ class RankFragment : Fragment(R.layout.fragment_rank),
                 }
                 is Resource.NewData -> {
                     rankSwipeRefresh.isRefreshing = false
-                    rankAdapter.updateList(it.data?.data?.movies!!)
+                    rankAdapter.updateList(it.data!!)
                 }
             }
         })

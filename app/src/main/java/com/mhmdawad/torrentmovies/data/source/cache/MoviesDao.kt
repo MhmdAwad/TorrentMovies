@@ -23,4 +23,7 @@ interface MoviesDao {
     @Query("SELECT * FROM movie WHERE id = :id LIMIT 1")
     suspend fun getSpecificMovie(id: Int): Movie
 
+    @Query("SELECT * FROM MoviesItem ORDER BY rating DESC LIMIT :limit OFFSET :page ")
+    suspend fun getTopRankMovies(limit: Int, page: Int): List<MoviesItem>
+
 }

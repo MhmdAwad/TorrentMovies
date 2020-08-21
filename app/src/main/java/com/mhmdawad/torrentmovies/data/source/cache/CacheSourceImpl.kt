@@ -32,4 +32,7 @@ class CacheSourceImpl(private val moviesDao: MoviesDao,  private val favoriteDao
 
     override suspend fun checkFavMovieExist(id: Int) =
         favoriteDao.checkMovieExist(id)
+
+    override suspend fun getRankMovies(limit: Int, page: Int): List<MoviesItem>  =
+        moviesDao.getTopRankMovies(limit, page)
 }

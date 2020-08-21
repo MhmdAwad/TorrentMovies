@@ -8,7 +8,6 @@ import com.mhmdawad.torrentmovies.data.source.cache.ICacheSource
 import com.mhmdawad.torrentmovies.data.source.network.INetworkSource
 import com.mhmdawad.torrentmovies.utils.changeCategory
 import com.mhmdawad.torrentmovies.utils.convertToFavorite
-import java.lang.IllegalArgumentException
 
 class MainRepository(
     private val networkSource: INetworkSource,
@@ -18,7 +17,7 @@ class MainRepository(
     private suspend fun getNetworkCategory(category: String, page: Int) {
         val result = networkSource.getMoviesCategory(category, page)
         result.data?.movies?.apply {
-            changeCategory(category)    
+            changeCategory(category)
             cacheSource.saveCacheMoviesList(this)
         }
     }
@@ -55,27 +54,43 @@ class MainRepository(
         return result
     }
 
-    suspend fun getNetworkRanking(page: Int): MoviesResponse {
-        return networkSource.rankMovies(page)
+
+    private suspend fun getCacheRanking(page: Int): List<MoviesItem> =
+        cacheSource.getRankMovies(20, page.times(10))
+
+
+
+    suspend fun getNetworkRanking(page: Int): List<MoviesItem> {
+        var result = emptyList<MoviesItem>()
+        try {
+            result = networkSource.rankMovies(page).data!!.movies
+        } finally {
+            if (result.isEmpty())
+                result = getCacheRanking(page)
+            if (result.isEmpty())
+                throw IllegalArgumentException()
+            else
+                return result
+        }
     }
 
-    suspend fun saveMovieToFav(movie: Movie){
+    suspend fun saveMovieToFav(movie: Movie) {
         cacheSource.saveFavMovie(movie.convertToFavorite())
         checkFavMovieExist(movie.id!!)
     }
 
-    suspend fun getAllFavMovie():List<FavoriteMovie>{
-        val result =  cacheSource.getAllFavMovies()
+    suspend fun getAllFavMovie(): List<FavoriteMovie> {
+        val result = cacheSource.getAllFavMovies()
         if (result.isEmpty())
             throw IllegalArgumentException()
         return result
     }
 
-    suspend fun deleteSpecificFavMovie(id: Int){
+    suspend fun deleteSpecificFavMovie(id: Int) {
         cacheSource.deleteFavMovie(id)
     }
 
-    suspend fun checkFavMovieExist(id: Int):Boolean =
+    suspend fun checkFavMovieExist(id: Int): Boolean =
         cacheSource.checkFavMovieExist(id)
 
 }

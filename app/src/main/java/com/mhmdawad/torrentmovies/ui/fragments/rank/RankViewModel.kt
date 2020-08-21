@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mhmdawad.torrentmovies.data.model.MoviesItem
 import com.mhmdawad.torrentmovies.data.model.MoviesResponse
 import com.mhmdawad.torrentmovies.data.source.MainRepository
 import com.mhmdawad.torrentmovies.utils.Resource
@@ -12,8 +13,8 @@ import kotlinx.coroutines.launch
 
 class RankViewModel(private val repository: MainRepository): ViewModel() {
 
-    private val rankMovies = MutableLiveData<Resource<MoviesResponse>>()
-    fun observeRankMovies() = rankMovies as LiveData<Resource<MoviesResponse>>
+    private val rankMovies = MutableLiveData<Resource<List<MoviesItem>>>()
+    fun observeRankMovies() = rankMovies as LiveData<Resource<List<MoviesItem>>>
     private var cancelLoading = false
     private var pageNum = 1
 
@@ -38,18 +39,18 @@ class RankViewModel(private val repository: MainRepository): ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val results = kotlin.runCatching { repository.getNetworkRanking(page) }
             results.onSuccess {
-                checkPageNum(page, results)
+                checkPageNum(page, it)
                 cancelLoading = false
             }
             results.onFailure { rankMovies.postValue(Resource.Error("Error $it", null)) }
         }
     }
 
-    private fun checkPageNum(page: Int, result: Result<MoviesResponse>) {
+    private fun checkPageNum(page: Int, result: List<MoviesItem>) {
         if (page == 1)
-            rankMovies.postValue(Resource.Loaded(result.getOrThrow()))
+            rankMovies.postValue(Resource.Loaded(result))
         else
-            rankMovies.postValue(Resource.NewData(result.getOrThrow()))
+            rankMovies.postValue(Resource.NewData(result))
     }
 
 }

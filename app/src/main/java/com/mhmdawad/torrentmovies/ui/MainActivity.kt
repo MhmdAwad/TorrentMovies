@@ -8,6 +8,7 @@ import com.mhmdawad.torrentmovies.R
 import com.mhmdawad.torrentmovies.ui.fragments.details.DetailsFragment
 import com.mhmdawad.torrentmovies.ui.fragments.explore.ExploreFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,8 +17,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        deleteSubFolders(applicationContext.getExternalFilesDir(null)!!.absolutePath)
+
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         NavigationUI.setupWithNavController(mainBottomNav, navController)
+    }
+
+
+    private fun deleteSubFolders(path: String) {
+        val currentFolder = File(path)
+        val files: Array<File> = currentFolder.listFiles() ?: return
+        for (f in files) {
+            if (f.isDirectory) deleteSubFolders(f.toString())
+            f.delete()
+        }
     }
 
     override fun onBackPressed() {
