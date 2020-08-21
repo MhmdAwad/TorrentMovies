@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
@@ -24,7 +23,7 @@ import com.mhmdawad.torrentmovies.utils.*
 import com.mhmdawad.torrentmovies.utils.rv_listeners.SubtitleListener
 import kotlinx.android.synthetic.main.exo_player_control_view.*
 import kotlinx.android.synthetic.main.fragment_stream.*
-import kotlinx.android.synthetic.main.movie_quality_dialog.view.*
+import kotlinx.android.synthetic.main.movie_dialog.view.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.core.KoinComponent
 import org.koin.core.get
@@ -81,7 +80,10 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
                     progressContainer.show()
                 }
                 is Resource.Loaded -> {
-                    showMovieSubtitlesDialog(it.data!!, requireView())
+                    if (it.data!!.isNotEmpty())
+                        showMovieSubtitlesDialog(it.data, requireView())
+                    else
+                        showToast(resources.getString(R.string.noSubtitle))
                     progressContainer.gone()
                 }
                 is Resource.Error -> {
@@ -98,7 +100,7 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
                     alertDialog.dismiss()
                     addSubtitleToPlayer(it.data)
                 }
-                is Resource.Error -> showToast("Error with adding subtitle, Please try again..")
+                is Resource.Error -> showToast(resources.getString(R.string.subtitleError))
             }
         })
     }
@@ -108,7 +110,7 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
         val viewGroup: ViewGroup? = view.findViewById(android.R.id.content)
         val dialogView =
             LayoutInflater.from(view.context).inflate(
-                R.layout.movie_quality_dialog
+                R.layout.movie_dialog
                 , viewGroup, false
             )
         AlertDialog.Builder(view.context).apply {
@@ -116,7 +118,7 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
             setView(dialogView)
             alertDialog = create()
         }
-        dialogView.movieQualityRV.apply {
+        dialogView.movieDialogRV.apply {
             addDividers()
             adapter = MovieSubtitlesAdapter(listOfSubtitles, this@StreamFragment)
         }
@@ -186,7 +188,7 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
 
     override fun onResume() {
         super.onResume()
-        if(torrentStream.currentTorrent != null)
+        if (torrentStream.currentTorrent != null)
             torrentStream.currentTorrent.resume()
         if (this::simplePlayer.isInitialized) simplePlayer.resumePlayer()
     }
