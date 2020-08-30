@@ -14,6 +14,8 @@
         android:gravity="center"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="@+id/movieCastCard"
         app:layout_constraintEnd_toEndOf="@+id/movieCastCard"
         app:layout_constraintStart_toStartOf="@+id/movieCastCard"
