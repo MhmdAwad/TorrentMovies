@@ -7,6 +7,12 @@
     android:background="@color/colorDark"
     tools:context=".ui.fragments.favorites.FavoritesFragment">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="8dp"
+        android:background="@drawable/gradient_bg_top"/>
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -14,6 +20,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/favorite"
+        android:elevation="8dp"
         android:textColor="@color/colorWhite"
         android:textSize="32sp"
         android:textStyle="bold"
