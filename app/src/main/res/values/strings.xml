@@ -26,6 +26,6 @@
     <string name="year">Year:</string>
     <string name="noSubtitle">No subtitles found to this movie..</string>
     <string name="subtitleError">Error with adding subtitle, Please try again..</string>
-    <string name="why_wait_for_the_download_if_you_can_stream">WHY WAIT FOR DOWNLOAD MOVIE IF YOU CAN STREAM IT?</string>
+    <string name="stream_it">STREAM IT</string>
     <string name="torrent_movies">TORRENT MOVIES</string>
 </resources>

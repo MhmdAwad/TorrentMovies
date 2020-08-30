@@ -13,14 +13,22 @@ class MainRepository(
     private val networkSource: INetworkSource,
     private val cacheSource: ICacheSource
 ) {
+    private var firstNetworkLoad = true
 
     private suspend fun getNetworkCategory(category: String, page: Int) {
         val result = networkSource.getMoviesCategory(category, page)
         result.data?.movies?.apply {
             if (this.isNotEmpty()) {
+                deleteLastCache()
                 changeCategory(category)
                 cacheSource.saveCacheMoviesList(this)
             }
+        }
+    }
+    private suspend fun deleteLastCache(){
+        if(firstNetworkLoad){
+            cacheSource.deleteAllCacheMovies()
+            firstNetworkLoad = false
         }
     }
 
