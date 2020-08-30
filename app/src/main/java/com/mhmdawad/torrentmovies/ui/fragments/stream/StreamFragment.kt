@@ -45,7 +45,6 @@ class StreamFragment : Fragment(R.layout.fragment_stream), KoinComponent, Torren
         super.onCreate(savedInstanceState)
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         viewModel = getViewModel()
-        clearNoLimitFlag()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

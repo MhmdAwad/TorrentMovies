@@ -53,7 +53,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addNoLimitFlag()
         detailsMovieCover.transitionName = resources.getString(R.string.transitionName)
         observeObservers()
     }
@@ -203,10 +202,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details), YouTubePlayer.OnFul
     override fun onBackPressed(): Boolean {
         if (ytFullScreen)
             ytPlayer.setFullscreen(false)
-        else {
-            clearNoLimitFlag()
+        else
             findNavController().popBackStack()
-        }
         return false
     }
 
