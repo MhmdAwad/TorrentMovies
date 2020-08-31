@@ -51,4 +51,10 @@ MVVM is pretty good in such cases. It goes one step further in separating the re
 <img src="https://i.ibb.co/SXPC7S5/9.png" width="350">
 </p>
 
+# APK
+
+[Release](https://drive.google.com/file/d/1itX5xF1dtyIAKbqqxqHarUrInBd4dCoG/view?fbclid=IwAR1CaL_eMXal-J9rKzzqzr5h3NVks5LLedjU2eswgt6AmEpHecQWwLcoKHw)
+
+
+
 
